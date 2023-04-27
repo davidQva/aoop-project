@@ -15,5 +15,4 @@ public class GameView {
         GameView gameUI = new GameView(gameModel);
         gameUI.displayGameBoard();
     }
-
 }
