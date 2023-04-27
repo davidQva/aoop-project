@@ -1,0 +1,7 @@
+@startuml umlPlayground
+skinparam Style strictuml
+A -> B : hello
+B -> A : hi
+
+
+@enduml
