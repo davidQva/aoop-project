@@ -20,6 +20,5 @@ public class App {
 		}
         System.out.println("\n");
         System.out.println("tada!~~");
-        //Nu la jag till denna kommentar bara för att se om den hänger med pushhhhhen
     }
 }
