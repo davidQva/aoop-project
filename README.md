@@ -8,3 +8,5 @@ Testing the MVC pattern.
 Implenet this and test if its suitible for our project.
 
 nu har jag ändrat!
+
+Nu har du andrat minsann !
