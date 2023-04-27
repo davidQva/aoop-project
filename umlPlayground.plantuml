@@ -1,7 +1,22 @@
-@startuml umlPlayground
-skinparam Style strictuml
-A -> B : hello
-B -> A : hi
+@startuml
 
+class Model {
+    +setGameState(gameState: Object): void
+    +getGameState(): Object
+}
 
+class View {
+    +displayGameBoard(): void
+    +displayGameOver(): void
+}
+
+class Controller {
+    -model: Model
+    -view: View
+    +handleInput(input: Object): void
+}
+
+Model -> Controller
+Controller -> View
+View --> Model
 @enduml
