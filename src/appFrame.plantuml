@@ -1,0 +1,64 @@
+
+@startuml
+
+class GameManager {
+    +getInstance() : GameManager
+    -currentLevel : Level
+    -player : Player
+    -scoreManager : ScoreManager
+    +startGame() : void
+    +restartLevel() : void
+    +nextLevel() : void
+}
+
+interface LevelFactory {
+    +createLevel() : Level
+}
+
+class Level {
+    -boxes : List<Box>
+    -targets : List<Target>
+    -playerStartPosition : Position
+    +getBoxes() : List<Box>
+    +getTargets() : List<Target>
+    +getPlayerStartPosition() : Position
+}
+
+class Box {
+    -position : Position
+    +moveTo(newPosition: Position) : void
+}
+
+class Target {
+    -position : Position
+    -containsBox : boolean
+    +isOccupied() : boolean
+}
+
+class Player {
+    -position : Position
+    +moveTo(newPosition: Position) : void
+}
+
+class ScoreManager {
+    +getInstance() : ScoreManager
+    -score : int
+    +addPoints(points: int) : void
+    +getScore() : int
+}
+
+GameManager --> LevelFactory
+GameManager --> Level
+GameManager --> Player
+GameManager --> ScoreManager
+ScoreManager --> "Singleton"
+
+Level -> Box
+Level -> Target
+Level -> Player
+
+Box --> Position
+Target --> Position
+Player --> Position
+
+@enduml
