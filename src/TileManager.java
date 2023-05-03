@@ -8,9 +8,20 @@ import javax.imageio.ImageIO;
 
 public class TileManager {
 	
+	/*
+	 * create an instance of the gamepanel
+	 * an array of tiles and map tile array for drawing the icons in the gamepanel.
+	 * */
+	
 	GamePanel gp;
 	Tile[] tile;
-	int mapTileNum[][];
+	int[][] mapTileNum;
+	
+	/*
+	 * make the arrays to the appropriate size for the screen and number of tiles.
+	 * get the icons from the icons folder in the resources source folder
+	 * load the input map from the maps folder in the resources folder
+	 * */
 	
 	public TileManager(GamePanel gp) 
 	{
@@ -18,9 +29,12 @@ public class TileManager {
 		mapTileNum = new int[gp.MAX_SCREEN_W][gp.MAX_SCREEN_H];
 		
 		getTileImage();
-		loadMap("/maps/map03.txt");
+		loadMap("/maps/map01.txt");
 	}
 	
+	/*
+	 * read the icon files from the chosen location and saves them in the image variable that is stored in an array of bufferedimages.
+	 * */
 	public void getTileImage() 
 	{
 		try 
@@ -86,6 +100,8 @@ public class TileManager {
 			
 		}
 	}
+	
+	
 	
 	public void draw(Graphics2D g2) 
 	{

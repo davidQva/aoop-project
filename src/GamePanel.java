@@ -4,20 +4,23 @@ import javax.swing.*;
 
 public class GamePanel extends JPanel {
 	
-	public static final int MAX_SCREEN_W = 15;
-	public static final int MAX_SCREEN_H = 15;
-	static final int SCREEN_W = 1200;
-	static final int SCREEN_H = 1200;
-	public static final int UNIT_SIZE = 80;
-	public static final int GAME_UNITS = (SCREEN_W*SCREEN_H)/UNIT_SIZE;
+	/*
+	 * /Creates a Max tile number in both height and width to make it easier to read the map.
+	 * 
+	 * */
 	
-	final int x[] = new int[GAME_UNITS];
-	final int y[] = new int[GAME_UNITS];
-	char direction = ' ';
-	
+	public static final int MAX_SCREEN_W = 16;
+	public static final int MAX_SCREEN_H = 12;
+	static final int SCREEN_W = 960;
+	static final int SCREEN_H = 720;
+	public static final int UNIT_SIZE = 60;
+
+	/*
+	 * Adding a instance of the classes below to the gamepanel and a keylistener that is coupled with the player.
+	 * */
 	TileManager tileMgr = new TileManager(this);
 	KeyHandler keyH = new KeyHandler(this); 
-	Player player = new Player(this,keyH); // add charcter with key listener
+	Player player = new Player(this,keyH); 
 	
 	public GamePanel() 
 	{
@@ -25,11 +28,15 @@ public class GamePanel extends JPanel {
 		this.setPreferredSize(new Dimension(SCREEN_W,SCREEN_H));
 		this.setBackground(Color.black);
 		this.addKeyListener(keyH);
-		this.setFocusable(true);
+		this.setFocusable(true); // make the gamepanel react to keyInputs
 		
 		updatePos();
 		repaint();
 	}
+	
+	/*
+	 * Draw the tile icons first and then draw the player to keep the player at the top "layer" of the gamePanel
+	 */
 	
 	public void paintComponent(Graphics g) 
 	{	
@@ -41,8 +48,13 @@ public class GamePanel extends JPanel {
 		
 		player.draw(g2);
 		
-		draw(g2); // print grid.
+		//draw(g2); // draw grid
 	}
+	
+	/*
+	 * update the position of the player based on the boolean value of the *direction* pressed variable
+	 * which updates the position of the character based on the size of a tile, then repaints the character icon.
+	 * */
 	
 	public void updatePos() 
 	{
@@ -72,13 +84,13 @@ public class GamePanel extends JPanel {
 		
 	}
 	
-	public void draw(Graphics g) 
+	/*public void draw(Graphics g) 
 	{
-		/*for (int i = 0; i < SCREEN_H/UNIT_SIZE; i++) 
+		for (int i = 0; i < SCREEN_H/UNIT_SIZE; i++) 
 		{
 			g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_H); // skapa ett rutnät baserat på storleken man valt som unit size.
 			g.drawLine(0, i*UNIT_SIZE,SCREEN_W , i*UNIT_SIZE);
-		}*/
-	}
+		}
+	}*/
 	
 }

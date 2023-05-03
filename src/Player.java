@@ -8,6 +8,11 @@ public class Player extends Character{
 	GamePanel gp;
 	KeyHandler keyH;
 	
+	
+	/*
+	 * Creates a link between the player and the gamepanel with a keylistener.
+	 * fetches the character icon and puts the character in the default position.
+	 * */
 	public Player(GamePanel gp, KeyHandler keyH) 
 	{
 		this.gp = gp;
@@ -17,12 +22,20 @@ public class Player extends Character{
 		getPlayerImage();
 	}
 	
+	/*
+	 * sets the default values of the character position and the movement(position)
+	 * */
+	
 	public void setDefaultValues() 
 	{
-		x = 240;
-		y = 240;
-		position = 80;
+		x = 180;
+		y = 180;
+		move = 60;
 	}
+	
+	/*
+	 *	reads the character image file from the icons folder in the source folder "resources" 
+	 */
 	
 	public void getPlayerImage() 
 	{
@@ -35,27 +48,35 @@ public class Player extends Character{
 			e.printStackTrace();
 		}
 	}
-
+	
+	/*
+	 * updates the value of the x and y coordinates based on if the direction pressed variable is true.
+	 * where it increases in y as it goes down and decreases as it goes up. with the same notion for left and right.
+	 * */
+	
 	public void update() 
 	{
 		if(keyH.upPressed == true) 
 		{
-			y -= position;
+			y -= move;
 		}
 		else if(keyH.downPressed == true)
 		{
-			y += position;
+			y += move;
 		}
 		else if(keyH.leftPressed == true)
 		{
-			x -= position;
+			x -= move;
 		}
 		else if(keyH.rightPressed == true)
 		{
-			x += position;
+			x += move;
 		}
 	}
 	
+	/*
+	 * draws the character in the size of tile (Unit_size)
+	 * */
 	public void draw(Graphics2D g2) 
 	{	
 		BufferedImage image = character;

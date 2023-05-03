@@ -3,14 +3,25 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
 	
+	
+	/*
+	 * Create an instance if the GamePanel and the boolean values which will be needed to check if the keys have been pressed or not.
+	 * */
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	GamePanel gp;
 
+	/*
+	 * adds the keyHandler to the gamepanel which gets input as an argument.
+	 * */
 	public KeyHandler(GamePanel gp) 
 	{
 		this.gp = gp;
 	}
 	
+	/*
+	 * create a local variable which saves the keyCode, 
+	 * when the keyCode is equal to the key, then the boolean variable for that key will be set as true and updates the position of the charcter
+	 * */
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
@@ -41,6 +52,10 @@ public class KeyHandler implements KeyListener{
 		}
 	}
 	
+	
+	/*
+	 * sets the value of the "direction"pressed variable to false when the key has been released.
+	 * */
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
