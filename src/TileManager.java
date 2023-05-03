@@ -29,7 +29,7 @@ public class TileManager {
 		mapTileNum = new int[gp.MAX_SCREEN_W][gp.MAX_SCREEN_H];
 		
 		getTileImage();
-		loadMap("/maps/map01.txt");
+		loadMap("/maps/map02.txt");
 	}
 	
 	/*

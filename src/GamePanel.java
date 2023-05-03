@@ -5,14 +5,14 @@ import javax.swing.*;
 public class GamePanel extends JPanel {
 	
 	/*
-	 * /Creates a Max tile number in both height and width to make it easier to read the map.
+	 * Creates a Max tile number in both height and width to make it possible to read the map.
 	 * 
 	 * */
 	
 	public static final int MAX_SCREEN_W = 16;
 	public static final int MAX_SCREEN_H = 12;
-	static final int SCREEN_W = 960;
-	static final int SCREEN_H = 720;
+	public static final int SCREEN_W = 960;
+	public static final int SCREEN_H = 720;
 	public static final int UNIT_SIZE = 60;
 
 	/*
