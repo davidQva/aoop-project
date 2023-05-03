@@ -8,9 +8,10 @@ public class GameFrame extends JFrame{
 	this.setTitle("Sowkowban");
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setResizable(false);
-	this.addKeyListener(new KeyHandler(new GamePanel())); // adds a keylistener to the frame based on the gamepanel.
 	this.pack();
 	this.setLocationRelativeTo(null);
 	this.setVisible(true);
 	}
 }
+
+//this.addKeyListener(new KeyHandler(new GamePanel())); // adds a keylistener to the frame based on the gamepanel. solved with making the keylistener from gamepanel  public

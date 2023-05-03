@@ -52,7 +52,6 @@ public class KeyHandler implements KeyListener{
 		}
 	}
 	
-	
 	/*
 	 * sets the value of the "direction"pressed variable to false when the key has been released.
 	 * */

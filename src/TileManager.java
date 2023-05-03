@@ -15,7 +15,7 @@ public class TileManager {
 	
 	GamePanel gp;
 	Tile[] tile;
-	int[][] mapTileNum;
+	public int[][] mapTileNum;
 	
 	/*
 	 * make the arrays to the appropriate size for the screen and number of tiles.
@@ -26,7 +26,7 @@ public class TileManager {
 	public TileManager(GamePanel gp) 
 	{
 		tile = new Tile[10];
-		mapTileNum = new int[gp.MAX_SCREEN_W][gp.MAX_SCREEN_H];
+		mapTileNum = new int[gp.MAX_SCREEN_TILE_W][gp.MAX_SCREEN_TILE_H];
 		
 		getTileImage();
 		loadMap("/maps/map02.txt");
@@ -41,9 +41,11 @@ public class TileManager {
 		{
 			tile[0] = new Tile();
 			tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Icons/crate.png"));
+			tile[0].collision = true;
 			
 			tile[1] = new Tile();
 			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/Icons/cratemarked.png"));
+			tile[1].collision = true;
 			
 			tile[2] = new Tile();
 			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/Icons/blank.png"));
@@ -53,15 +55,29 @@ public class TileManager {
 			
 			tile[4] = new Tile();
 			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/Icons/wall.png"));
+			tile[4].collision = true;
 			
 			tile[5] = new Tile();
 			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/Icons/player.png"));
+			tile[5].collision = true;
 		} 
 		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * This loadMap works as follows: Read the map file by utilizing the Inputstream to import the text file, then using the
+	 * BufferedReader to read the contents of the text file.
+	 * By utilizing the variables col and row with the readline method, it's possible to read the map 
+	 * configuration based on the values in the rows and columns
+	 * when creating the map we make spaces in between the values to not make it into one string, 
+	 * then by using the line.split we read one string value at a time
+	 * which is then parsed from a string into an int which gets inserted in the "mapTileNum" array.
+	 * when one the column reaches the max width of the screen, then it will continue with the next row, 
+	 * when finished we close the buffered reader.
+	 * */
 	
 	public void loadMap(String filePath) 
 	{
@@ -73,13 +89,13 @@ public class TileManager {
 			int col = 0;
 			int row = 0;
 			
-			while(col < gp.MAX_SCREEN_W && row < gp.MAX_SCREEN_H) 
+			while(col < gp.MAX_SCREEN_TILE_W && row < gp.MAX_SCREEN_TILE_H) 
 			{
 				String line = br.readLine();
 				
-				while(col < gp.MAX_SCREEN_W) //read in each column in the first row until max width then go down one row
+				while(col < gp.MAX_SCREEN_TILE_W) 
 				{
-					String numbers[] = line.split(" ");
+					String[]  numbers= line.split(" ");
 						
 					int num = Integer.parseInt(numbers[col]);
 					
@@ -87,7 +103,7 @@ public class TileManager {
 					col++;
 				}
 				
-				if(col == gp.MAX_SCREEN_W) 
+				if(col == gp.MAX_SCREEN_TILE_W) 
 				{
 					col = 0;
 					row++;
@@ -102,7 +118,12 @@ public class TileManager {
 	}
 	
 	
-	
+	/*
+	 * this draw works as follows: Starts drawing a tile at the upper left corner then it increment the col by one 
+	 * and then increase the value of x by the size of a UNIT tile.
+	 * When reaching the end column max value, it resets the col and x variables to start on the next row by incrementing
+	 * the row variable by 1 and y variable by the size of a UNIT tile
+	 * */
 	public void draw(Graphics2D g2) 
 	{
 		int col = 0;
@@ -110,7 +131,7 @@ public class TileManager {
 		int x = 0;
 		int y = 0;
 		
-		while(col < gp.MAX_SCREEN_W && row < gp.MAX_SCREEN_H) 
+		while(col < gp.MAX_SCREEN_TILE_W && row < gp.MAX_SCREEN_TILE_H) 
 		{
 			int tileNum = mapTileNum[col][row];
 			
@@ -118,7 +139,7 @@ public class TileManager {
 			col++;
 			x += gp.UNIT_SIZE;
 			
-			if(col == gp.MAX_SCREEN_W) 
+			if(col == gp.MAX_SCREEN_TILE_W) 
 			{
 				col = 0;
 				x = 0;

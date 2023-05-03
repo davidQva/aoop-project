@@ -9,8 +9,8 @@ public class GamePanel extends JPanel {
 	 * 
 	 * */
 	
-	public static final int MAX_SCREEN_W = 16;
-	public static final int MAX_SCREEN_H = 12;
+	public static final int MAX_SCREEN_TILE_W = 16;
+	public static final int MAX_SCREEN_TILE_H = 12;
 	public static final int SCREEN_W = 960;
 	public static final int SCREEN_H = 720;
 	public static final int UNIT_SIZE = 60;
@@ -18,9 +18,11 @@ public class GamePanel extends JPanel {
 	/*
 	 * Adding a instance of the classes below to the gamepanel and a keylistener that is coupled with the player.
 	 * */
+	
 	TileManager tileMgr = new TileManager(this);
 	KeyHandler keyH = new KeyHandler(this); 
-	Player player = new Player(this,keyH); 
+	public CollisionStatus cStatus = new CollisionStatus(this);
+	public Player player = new Player(this,keyH); 
 	
 	public GamePanel() 
 	{

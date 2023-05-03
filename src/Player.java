@@ -72,6 +72,9 @@ public class Player extends Character{
 		{
 			x += move;
 		}
+		
+		collisionEnabled = false;
+		gp.cStatus.tileStatus(this);
 	}
 	
 	/*

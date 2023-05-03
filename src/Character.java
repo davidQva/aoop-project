@@ -8,4 +8,5 @@ public class Character {
 	
 	//Create variables for the icons that might need to react to inputs and events
 	public BufferedImage crate, cratemarked, character;
+	public boolean collisionEnabled = false;
 }
