@@ -6,7 +6,9 @@ import javax.imageio.ImageIO;
 public class Player extends Character{
 	
 	GamePanel gp;
-	KeyHandler keyH;
+	TileManager tileMgr;
+	public KeyHandler keyH;
+	public String direction;
 	
 	
 	/*
@@ -56,25 +58,30 @@ public class Player extends Character{
 	
 	public void update() 
 	{
+		
 		if(keyH.upPressed == true) 
 		{
+			direction = "up";
 			y -= move;
 		}
 		else if(keyH.downPressed == true)
 		{
+			direction = "down";
 			y += move;
 		}
 		else if(keyH.leftPressed == true)
 		{
+			direction = "left";
 			x -= move;
 		}
 		else if(keyH.rightPressed == true)
 		{
+			direction = "right";
 			x += move;
 		}
 		
-		collisionEnabled = false;
 		gp.cStatus.tileStatus(this);
+		
 	}
 	
 	/*

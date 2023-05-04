@@ -1,4 +1,5 @@
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +15,9 @@ public class TileManager {
 	 * */
 	
 	GamePanel gp;
-	Tile[] tile;
+	public Tile[] tile;
 	public int[][] mapTileNum;
+	public Rectangle[][] rect;
 	
 	/*
 	 * make the arrays to the appropriate size for the screen and number of tiles.
@@ -27,9 +29,10 @@ public class TileManager {
 	{
 		tile = new Tile[10];
 		mapTileNum = new int[gp.MAX_SCREEN_TILE_W][gp.MAX_SCREEN_TILE_H];
+		rect = new Rectangle[gp.MAX_SCREEN_TILE_W][gp.MAX_SCREEN_TILE_H];
 		
 		getTileImage();
-		loadMap("/maps/map02.txt");
+		loadMap("/maps/map03.txt");
 	}
 	
 	/*
@@ -136,6 +139,7 @@ public class TileManager {
 			int tileNum = mapTileNum[col][row];
 			
 			g2.drawImage(tile[tileNum].image, x, y, gp.UNIT_SIZE, gp.UNIT_SIZE, null);
+			rect[col][row] = new Rectangle(x,y,gp.UNIT_SIZE,gp.UNIT_SIZE);
 			col++;
 			x += gp.UNIT_SIZE;
 			
