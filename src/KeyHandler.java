@@ -21,6 +21,7 @@ public class KeyHandler implements KeyListener{
 	/*
 	 * create a local variable which saves the keyCode, 
 	 * when the keyCode is equal to the key, then the boolean variable for that key will be set as true and updates the position of the charcter
+	 * only one key may be pressed at a time.
 	 * */
 	@Override
 	public void keyPressed(KeyEvent e) 
@@ -29,24 +30,37 @@ public class KeyHandler implements KeyListener{
 		
 		if (code == KeyEvent.VK_UP) 
 		{
+			if(downPressed == true || leftPressed == true || rightPressed == true)
+				return;
+			else 
 			upPressed = true;
 			gp.updatePos();
 		}
 		
 		if (code == KeyEvent.VK_DOWN) 
 		{
+			if(upPressed == true || leftPressed == true || rightPressed == true)
+				return;
+			else 
 			downPressed = true;
 			gp.updatePos();
 		}
 		
 		if (code == KeyEvent.VK_LEFT) 
 		{
-			leftPressed = true;
-			gp.updatePos();
+			if(downPressed == true || upPressed == true || rightPressed == true)
+				return;
+			else 
+				leftPressed = true;
+				gp.updatePos();
+			
 		}
 		
 		if (code == KeyEvent.VK_RIGHT) 
 		{
+			if(downPressed == true || upPressed == true || leftPressed == true)
+				return;
+			else 
 			rightPressed = true;
 			gp.updatePos();
 		}

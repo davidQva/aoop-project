@@ -17,7 +17,6 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int[][] mapTileNum;
-	public Rectangle[][] rect;
 	
 	/*
 	 * make the arrays to the appropriate size for the screen and number of tiles.
@@ -28,8 +27,7 @@ public class TileManager {
 	public TileManager(GamePanel gp) 
 	{
 		tile = new Tile[10];
-		mapTileNum = new int[gp.MAX_SCREEN_TILE_W][gp.MAX_SCREEN_TILE_H];
-		rect = new Rectangle[gp.MAX_SCREEN_TILE_W][gp.MAX_SCREEN_TILE_H];
+		mapTileNum = new int[gp.SCREEN_TILE_W][gp.SCREEN_TILE_H];
 		
 		getTileImage();
 		loadMap("/maps/map03.txt");
@@ -92,31 +90,55 @@ public class TileManager {
 			int col = 0;
 			int row = 0;
 			
-			while(col < gp.MAX_SCREEN_TILE_W && row < gp.MAX_SCREEN_TILE_H) 
+			while(col < gp.SCREEN_TILE_W && row < gp.SCREEN_TILE_H) 
 			{
 				String line = br.readLine();
 				
-				while(col < gp.MAX_SCREEN_TILE_W) 
+				while(col < gp.SCREEN_TILE_W) 
 				{
 					String[]  numbers= line.split(" ");
 						
 					int num = Integer.parseInt(numbers[col]);
 					
 					mapTileNum[col][row] = num;
+					
 					col++;
 				}
 				
-				if(col == gp.MAX_SCREEN_TILE_W) 
+				if(col == gp.SCREEN_TILE_W) 
 				{
 					col = 0;
 					row++;
-				}
+				} 
 			}
 			br.close();
 		}
 		catch(IOException e) 
 		{
 			
+		}
+	}
+	
+	public void printCurrentMap() 
+	{
+		int col = 0;
+		int row = 0;
+		
+		while(col < gp.SCREEN_TILE_W && row < gp.SCREEN_TILE_H) 
+		{
+			while (col < gp.SCREEN_TILE_W) 
+			{	
+				System.out.print(mapTileNum[col][row] + " ");
+				
+				col++;
+			}
+			
+			if(col == gp.SCREEN_TILE_W) 
+			{
+				System.out.println();
+				col = 0;
+				row++;
+			} 
 		}
 	}
 	
@@ -134,16 +156,16 @@ public class TileManager {
 		int x = 0;
 		int y = 0;
 		
-		while(col < gp.MAX_SCREEN_TILE_W && row < gp.MAX_SCREEN_TILE_H) 
+		while(col < gp.SCREEN_TILE_W && row < gp.SCREEN_TILE_H) 
 		{
 			int tileNum = mapTileNum[col][row];
 			
 			g2.drawImage(tile[tileNum].image, x, y, gp.UNIT_SIZE, gp.UNIT_SIZE, null);
-			rect[col][row] = new Rectangle(x,y,gp.UNIT_SIZE,gp.UNIT_SIZE);
+			
 			col++;
 			x += gp.UNIT_SIZE;
 			
-			if(col == gp.MAX_SCREEN_TILE_W) 
+			if(col == gp.SCREEN_TILE_W) 
 			{
 				col = 0;
 				x = 0;
