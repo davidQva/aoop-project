@@ -1,11 +1,14 @@
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import java.awt.Point;
+
 
 public class TileManager {
 	
@@ -16,7 +19,9 @@ public class TileManager {
 	
 	GamePanel gp;
 	public Tile[] tile;
+	public Tile[][] mapTileIndex;
 	public int[][] mapTileNum;
+	public ArrayList<Point> cratePos;
 	
 	/*
 	 * make the arrays to the appropriate size for the screen and number of tiles.
@@ -28,6 +33,8 @@ public class TileManager {
 	{
 		tile = new Tile[10];
 		mapTileNum = new int[gp.SCREEN_TILE_W][gp.SCREEN_TILE_H];
+		mapTileIndex = new Tile[gp.SCREEN_TILE_W][gp.SCREEN_TILE_H];
+		cratePos = new ArrayList<Point>();
 		
 		getTileImage();
 		loadMap("/maps/map03.txt");
@@ -53,6 +60,7 @@ public class TileManager {
 			
 			tile[3] = new Tile();
 			tile[3].image = ImageIO.read(getClass().getResourceAsStream("/Icons/blankmarked.png"));
+			tile[3].markedTile = true;
 			
 			tile[4] = new Tile();
 			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/Icons/wall.png"));
@@ -101,6 +109,7 @@ public class TileManager {
 					int num = Integer.parseInt(numbers[col]);
 					
 					mapTileNum[col][row] = num;
+					mapTileIndex[col][row] = tile[num]; // to copy all images to a 2D array.
 					
 					col++;
 				}

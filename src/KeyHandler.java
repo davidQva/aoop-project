@@ -7,9 +7,8 @@ public class KeyHandler implements KeyListener{
 	/*
 	 * Create an instance if the GamePanel and the boolean values which will be needed to check if the keys have been pressed or not.
 	 * */
-	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	GamePanel gp;
-
+	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	/*
 	 * adds the keyHandler to the gamepanel which gets input as an argument.
 	 * */

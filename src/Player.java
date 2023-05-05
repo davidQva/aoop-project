@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Player extends Character{
+public class Player extends TileObjects{
 	
 	GamePanel gp;
 	TileManager tileMgr;
@@ -30,8 +30,7 @@ public class Player extends Character{
 	
 	public void startPoint(int x, int y) 
 	{
-		pos = new Point(x,y);
-
+		pos = new Point(x , y);
 	}
 	
 	
@@ -56,8 +55,6 @@ public class Player extends Character{
 		try 
 		{
 			character = ImageIO.read(getClass().getResourceAsStream("/Icons/player.png"));
-			crate = ImageIO.read(getClass().getResourceAsStream("/Icons/crate.png"));
-			cratemarked = ImageIO.read(getClass().getResourceAsStream("Icons/cratemarked.png"));
 		}
 		catch(IOException e)
 		{
@@ -110,13 +107,6 @@ public class Player extends Character{
 			System.out.println();
 		}
 		
-		gp.cStatus.tileStatus(this);
-		
-	}
-	
-	public void updateCrate() 
-	{
-		
 	}
 	
 	/*
@@ -124,7 +114,6 @@ public class Player extends Character{
 	 * */
 	public void draw(Graphics2D g2) 
 	{	
-		
 		BufferedImage image = character;
 		g2.drawImage(image, pos.x * gp.UNIT_SIZE, pos.y * gp.UNIT_SIZE, gp.UNIT_SIZE, gp.UNIT_SIZE,null);
 	}

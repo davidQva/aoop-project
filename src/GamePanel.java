@@ -17,8 +17,8 @@ public class GamePanel extends JPanel {
 	 * */
 	
 	public TileManager tileMgr;
+	//public CollisionObject object;
 	KeyHandler keyH = new KeyHandler(this);
-	public CollisionStatus cStatus = new CollisionStatus(this);
 	public Player player = new Player(this,keyH);
 	
 	public GamePanel()
@@ -32,6 +32,7 @@ public class GamePanel extends JPanel {
 		updatePos();
 		tileMgr.printCurrentMap();
 		repaint();
+		//object = new CollisionObject(this,tileMgr);
 	}
 	
 	/*
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel {
 		
 		player.draw(g2);
 		
+		//object.draw(g2); // försökte skriva ut lådor... -.-
 		//draw(g2); // draw grid
 	}
 	
@@ -62,7 +64,9 @@ public class GamePanel extends JPanel {
 		{
 			if(tileMgr.mapTileNum[player.pos.x][player.pos.y - 1] == 4 )
 				return;
-			//else if(tileMgr.mapTileNum[player.pos.x][player.pos.y - 1] == 1)
+			
+			if(tileMgr.mapTileIndex[player.pos.x][player.pos.y - 1].collision == true)
+				return;
 			
 			player.update();
 			repaint();
@@ -72,17 +76,22 @@ public class GamePanel extends JPanel {
 		{
 			if(tileMgr.mapTileNum[player.pos.x][player.pos.y + 1] == 4 )
 				return;
-			//else if(tileMgr.mapTileNum[player.pos.x][player.pos.y - 1] == 1)
+					
+			if(tileMgr.mapTileIndex[player.pos.x][player.pos.y + 1].collision == true)
+				return;
 				
 			player.update();
 			repaint();
+			
 		}
 		
 		if(keyH.leftPressed == true)
 		{
 			if(tileMgr.mapTileNum[player.pos.x - 1][player.pos.y] == 4 )
 				return;
-			//else if(tileMgr.mapTileNum[player.pos.x][player.pos.y - 1] == 1)
+			
+			if(tileMgr.mapTileIndex[player.pos.x - 1][player.pos.y].collision == true)
+				return;
 			
 			player.update();
 			repaint();
@@ -92,7 +101,10 @@ public class GamePanel extends JPanel {
 		{
 			if(tileMgr.mapTileNum[player.pos.x + 1][player.pos.y] == 4 )
 				return;
-			//else if(tileMgr.mapTileNum[player.pos.x][player.pos.y - 1] == 1) 
+			
+			if(tileMgr.mapTileIndex[player.pos.x + 1][player.pos.y].collision == true)
+				
+				return;
 			
 			player.update();
 			repaint();
