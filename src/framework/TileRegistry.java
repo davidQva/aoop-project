@@ -4,17 +4,23 @@ import java.util.HashMap;
 
 public class TileRegistry {
     
-    private HashMap<String, Tile> prototypes = new HashMap<String, Tile>();
+    private HashMap<Integer, Tile> prototypes = new HashMap<Integer, Tile>();
 
     public TileRegistry() {
         prototypes = new HashMap<>();
     }
 
-    public void addPrototypeTile(String key, Tile tile) {
+    public void addPrototypeTile(Integer key, Tile tile) {
         prototypes.put(key, tile);
     }
 
-    public Tile getPrototypeTile(String key) {
+    public Tile getPrototypeTile(Integer key) {
+        
+        if (!prototypes.containsKey(key)) {
+            return null;
+        }    
+        
+        
         return prototypes.get(key);
     }
 
