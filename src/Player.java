@@ -23,7 +23,6 @@ public class Player extends TileObjects{
 		this.keyH = keyH;
 		
 		startPoint(1,1);
-		//setDefaultValues();
 		getPlayerImage();
 	}
 	
@@ -32,20 +31,7 @@ public class Player extends TileObjects{
 	{
 		pos = new Point(x , y);
 	}
-	
-	
-	/*
-	 * sets the default values of the character position and the movement(position)
-	 * */
-	
-	/*public void setDefaultValues() 
-	{
-		x = (3*gp.UNIT_SIZE);
-		y = (3*gp.UNIT_SIZE);
-		move = gp.UNIT_SIZE;
-	}*/
-	
-	
+		
 	/*
 	 *	reads the character image file from the icons folder in the source folder "resources" 
 	 */
