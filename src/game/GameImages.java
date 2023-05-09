@@ -28,7 +28,6 @@ public class GameImages extends JComponent implements GameObserver{
 	     wall = new File("resources/images/wall.png");
 	}
 	
-	
 	/*
 	 * Defines which images that should be printed at the specific positions on the map,
 	 * the second integer for player was needed when walking over the marked spots on the map

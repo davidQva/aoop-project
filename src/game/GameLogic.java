@@ -326,9 +326,9 @@ public class GameLogic extends Game{
                 }
                 if (CurrMap[i][j] == CRATE) // från vänster till höger
                 	crates++;
-                if((CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j-1] == WALL) //vänster hörn
-                || (CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j+1] == WALL)//höger hörn
-                || (CurrMap[i][j] == CRATE && CurrMap[i+1][j] == WALL && CurrMap[i][j-1] == WALL) //vänster botten	
+                if((CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j-1] == WALL)  //vänster hörn
+                || (CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j+1] == WALL)  //höger hörn
+                || (CurrMap[i][j] == CRATE && CurrMap[i+1][j] == WALL && CurrMap[i][j-1] == WALL)  //vänster botten	
                 || (CurrMap[i][j] == CRATE && CurrMap[i+1][j] == WALL && CurrMap[i][j+1] == WALL)) //höger botten
                 {
                 	Lost = 1;

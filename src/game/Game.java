@@ -44,7 +44,7 @@ public abstract class Game extends JFrame{
 	 * */
 	private int[][] getMapLevel() 
 	{
-		int[][] level = 
+		/*int[][] level = 
 					{
 					{4,4,4,4,4,4,4,4,4,4,4,4,4},
 					{4,3,2,2,2,2,4,3,2,2,2,3,4},
@@ -58,10 +58,10 @@ public abstract class Game extends JFrame{
 					{4,2,2,2,2,2,4,2,2,2,2,2,4},
 					{4,2,2,2,2,2,4,2,2,2,2,2,4},
 					{4,3,2,2,2,3,4,2,2,2,2,3,4},
-					{4,4,4,4,4,4,4,4,4,4,4,4,4}};
+					{4,4,4,4,4,4,4,4,4,4,4,4,4}};*/
 		
 		
-		/*int[][] level = 
+		int[][] level = 
 					{
 					{4,4,4,4,4,4,4,4,4,4,4,4,4},
 					{4,3,2,2,2,2,2,3,2,2,2,3,4},
@@ -75,7 +75,7 @@ public abstract class Game extends JFrame{
 					{4,2,2,2,2,2,2,2,2,2,2,2,4},
 					{4,2,2,2,2,2,2,2,2,2,2,2,4},
 					{4,3,2,2,2,3,2,2,2,2,2,3,4},
-					{4,4,4,4,4,4,4,4,4,4,4,4,4}};*/
+					{4,4,4,4,4,4,4,4,4,4,4,4,4}};
 		
 		return level;
 	}
@@ -182,7 +182,6 @@ public abstract class Game extends JFrame{
 		logic.addObserver(Gimg);
 		logic.NotifyObservers(logic.getCurrentField(), "Game Start");
 		new Controller(logic);
-		int k = logic.lostStatus();
 		
 	}
 }
