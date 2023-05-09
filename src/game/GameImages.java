@@ -94,10 +94,47 @@ public class GameImages extends JComponent implements GameObserver{
 				
 				Graphics2D g2 = (Graphics2D)g;
 				g2.drawImage(scaleImage(image,60,60), null, 60*i, 60*j);
+
+				//drawResult(g2);
 	
 			}
 		}
 	}
+	
+	/*public void drawResult(Graphics2D g) 
+	{
+		
+		
+		if(gl != null) 
+		{
+		if(gl.wonStatus() == true)
+		{
+			g.setColor(Color.blue);
+			g.setFont(new Font("Ink Free",Font.BOLD, 25));
+			g.drawString("You Win!", 150, 150);
+			if(gl.wonStatus() == false)
+				g.dispose();
+		}
+		
+		if(gl.lostStatus() == 1)
+		{
+			g.setColor(Color.red);
+			g.setFont(new Font("Ink Free",Font.BOLD, 25));
+			g.drawString("Game Lost!", 150, 150);
+			if(gl.lostStatus() == 0)
+				g.dispose();
+		}
+		
+		if(gl.pauseStatus() == 1)
+		{
+			g.setColor(Color.white);
+			g.setFont(new Font("Ink Free",Font.BOLD, 25));
+			g.drawString("Game Paused", 150, 150);
+			if(gl.pauseStatus() == 0)
+				g.dispose();
+		}
+		}
+	}*/
 
 	/*
 	 * This method is used to scale the image to a bigger size than the original.

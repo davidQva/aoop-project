@@ -36,6 +36,7 @@ public abstract class Game extends JFrame{
 		startUp();
 	}
 	
+	
 	/*
 	 * Below are essential methods which is used to update and get the values needed
 	 * to make changes to positions and updating the game map as well as saving the 
@@ -58,6 +59,7 @@ public abstract class Game extends JFrame{
 					{4,2,2,2,2,2,4,2,2,2,2,2,4},
 					{4,3,2,2,2,3,4,2,2,2,2,3,4},
 					{4,4,4,4,4,4,4,4,4,4,4,4,4}};
+		
 		
 		/*int[][] level = 
 					{
@@ -160,7 +162,7 @@ public abstract class Game extends JFrame{
 		frame.setResizable(false);
 		frame.add(Gimg,BorderLayout.CENTER);
         	
-       this.CurrMap = getMapLevel();
+        this.CurrMap = getMapLevel();
 		CurrMap = createStart();
 		StartMap = createStart();
 		
@@ -180,5 +182,7 @@ public abstract class Game extends JFrame{
 		logic.addObserver(Gimg);
 		logic.NotifyObservers(logic.getCurrentField(), "Game Start");
 		new Controller(logic);
+		int k = logic.lostStatus();
+		
 	}
 }

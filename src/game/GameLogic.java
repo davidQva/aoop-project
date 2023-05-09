@@ -1,13 +1,13 @@
 package game;
-
 import java.util.ArrayList;
 
 public class GameLogic extends Game{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private Boolean Running = false;
 	private Boolean Won = false;
+	private int Lost = 0;
 	private int Pause = 0;
 	private final ArrayList<GameObserver> observer = new ArrayList<GameObserver>();
 	 
@@ -37,21 +37,42 @@ public class GameLogic extends Game{
 		this.observer.add(observer);
 	}
 	
-	public boolean getWon() 
-	{
-		return Won;
-	}
-	
 	/*
 	 * By pressing the keyboard button "P" the game will change the game to running = false
 	 * and pause to a binary "true", if the "P" button is pressed while in pause, the the game
 	 * will be unpaused.
 	 * */
 	
+	public int lostStatus() 
+	{
+		if(Lost == 1)
+			return Lost;
+		
+		return 0;
+	}
+	
+	public int pauseStatus() 
+	{
+		if(Pause == 1)
+			return Pause;
+		
+		return 0;
+	}
+	
+	public boolean wonStatus() 
+	{
+		if(Won)
+			return Won;
+		
+		return false;
+	}
+	
 	 @Override
 	    public void PressedReset() 
 	 	{ 
             Won = false;
+            Running = true;
+            Lost = 0;
 	        
             setPlayerPositionX(getStartPositionX());
 	        setPlayerPositionY(getStartPositionY());
@@ -98,7 +119,7 @@ public class GameLogic extends Game{
 			}
 			Scan(getPlayerPositionX(), getPlayerPositionY(), -1, 0, -2, 0);
 			NotifyObservers(getPlayField(), "Up");
-			GameWon();
+			GameWonLost();
 			if(Won) 
 			{
 				NotifyObservers(getPlayField(), "Game Won");
@@ -117,7 +138,7 @@ public class GameLogic extends Game{
 			}
 			Scan(getPlayerPositionX(), getPlayerPositionY(), 1, 0, 2, 0);
 			NotifyObservers(getPlayField(), "Down");
-			GameWon();
+			GameWonLost();
 			if(Won) 
 			{
 				NotifyObservers(getPlayField(), "Game Won");
@@ -136,7 +157,7 @@ public class GameLogic extends Game{
 			}
 			Scan(getPlayerPositionX(), getPlayerPositionY(), 0, -1, 0, -2);
 			NotifyObservers(getPlayField(), "Left");
-			GameWon();
+			GameWonLost();
 			if(Won) 
 			{
 				NotifyObservers(getPlayField(), "Game Won");
@@ -155,7 +176,7 @@ public class GameLogic extends Game{
 			}
 			Scan(getPlayerPositionX(), getPlayerPositionY(), 0, 1, 0, 2);
 			NotifyObservers(getPlayField(), "Right");
-			GameWon();
+			GameWonLost();
 			if(Won) 
 			{
 			NotifyObservers(getPlayField(), "Game Won");
@@ -207,6 +228,7 @@ public class GameLogic extends Game{
             {
                 return; 
             }
+            
             
     	   if (map[tryX + x_2][tryY + y_2] == GROUND)
             {
@@ -288,7 +310,7 @@ public class GameLogic extends Game{
 	 * the function then checks if the number of marked areas and the number of unmarked crates are equal to 0, 
 	 * if the marked areas have been covered and the crates have been marked then the level has been completed.
 	 * */
-	public void GameWon() 
+	public void GameWonLost() 
 	{
 		int groundmark = 0;
 		int crates = 0;
@@ -302,8 +324,18 @@ public class GameLogic extends Game{
                     groundmark++;
                     
                 }
-                if (CurrMap[i][j] == CRATE)
+                if (CurrMap[i][j] == CRATE) // från vänster till höger
                 	crates++;
+                if((CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j-1] == WALL) //vänster hörn
+                || (CurrMap[i][j] == CRATE && CurrMap[i-1][j] == WALL && CurrMap[i][j+1] == WALL)//höger hörn
+                || (CurrMap[i][j] == CRATE && CurrMap[i+1][j] == WALL && CurrMap[i][j-1] == WALL) //vänster botten	
+                || (CurrMap[i][j] == CRATE && CurrMap[i+1][j] == WALL && CurrMap[i][j+1] == WALL)) //höger botten
+                {
+                	Lost = 1;
+                	Won = false;
+                	Running = false;
+                	NotifyObservers(getPlayField(), "Game Lost"); 
+                }
             }
        	}
         
