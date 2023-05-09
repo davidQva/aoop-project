@@ -19,20 +19,19 @@ public class GameTest2 {
     
 
     public static void main(String[] args) throws IOException {
-
-        GameFrame gameFrame = new GameFrame();
-        gameFrame.setVisible(true);
-
-        SnakeTiles tile = new SnakeTiles();
-
-        TileModel tileModel = new TileModel(4,4);
-
+        
+        
+        
+        
         int[][] test = { {1,1,1,1}, {2, 2, 2, 2}, {2, 2, 2 ,2}, {1, 1, 1, 1} };
-
-
+        
+        
+        SnakeTiles tile = new SnakeTiles();
+        TileModel tileModel = new TileModel(4,4);
         GameView gameView = new GameView(tileModel, 50);       
-
-            
+        GameFrame gameFrame = new GameFrame(gameView, tileModel);
+        gameFrame.setVisible(true);
+    
         Image image = ImageIO.read(new File("aoop-project/resources/player.png"));
         Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage); 
@@ -55,7 +54,7 @@ public class GameTest2 {
 
        // gameView.setTile(tile, 1, 0);
 
-        gameFrame.SetBoard(gameView);      
+       // gameFrame.SetBoard(gameView,tileModel);      
 
         tileModel.setBoard(test);
 
@@ -64,9 +63,9 @@ public class GameTest2 {
         int[][] test2 = { {1,1, 1, 1}, {1, 1, 1, 1}, {1, 1, 1 ,1}, {1, 1, 1, 1} };
 
 
-        tileModel.setBoard(test2);
+      //  tileModel.setBoard(test2);
 
-        gameView.paintBoard();
+      //  gameView.paintBoard();
 
 
 

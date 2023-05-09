@@ -2,7 +2,6 @@ package framework;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,7 +13,8 @@ public class GameView extends JPanel {
     private JLabel[][] label;
 
     public GameView(TileModel game, int size) {
-       
+     
+       // addKeyListener(new Controller(game, this));
         this.game = game;
         int row = game.getBoard().length;
         int col = game.getBoard()[0].length;
