@@ -1,17 +1,16 @@
 package application;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import framework.Tile;
 
-public class SnakeTiles implements Tile {
+public class SokobanTile implements Tile {
 
     ImageIcon tile;
     int size;
 
-    public SnakeTiles clone() {
-        SnakeTiles clone = new SnakeTiles();
+    public SokobanTile clone() {
+        SokobanTile clone = new SokobanTile();
         clone.setTile(this.tile);
         clone.setSize(this.size);
         return clone;

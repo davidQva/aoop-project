@@ -7,14 +7,13 @@ import javax.swing.JPanel;
 
 public class GameView extends JPanel {
    
-    private TileModel game;
+    private AbstractTileModel game;
     private TileRegistry tileRegistry;
     private GridLayout grid;
     private JLabel[][] label;
 
-    public GameView(TileModel game, int size) {
-     
-       // addKeyListener(new Controller(game, this));
+    public GameView(AbstractTileModel game, int size) {             
+       
         this.game = game;
         int row = game.getBoard().length;
         int col = game.getBoard()[0].length;
@@ -49,7 +48,12 @@ public class GameView extends JPanel {
     } 
 
     public void addTiles(Integer key, Tile tile) {
+        if(tile != null)
         tileRegistry.addPrototypeTile(key, tile);
+    }
+
+    public Tile getTiles(Integer key) {
+        return tileRegistry.getPrototypeTile(key);
     }
     
 }
