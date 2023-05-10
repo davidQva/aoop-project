@@ -38,7 +38,7 @@ public class SokobanController2 implements InputController, MouseListener {
                     s = s + i + " " + j;
                 }
             }
-        }
+        }     
 
         System.out.println(s);
 

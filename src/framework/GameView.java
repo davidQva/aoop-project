@@ -34,8 +34,8 @@ public class GameView extends JPanel {
         
     }
 
-    public void paintBoard() {
-        int[][] board = game.getBoard();
+    public void paintBoard() { 
+       int[][] board = game.getBoard();
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[0].length; c++) {
                 setTile(tileRegistry.getPrototypeTile(board[r][c]), c, r);

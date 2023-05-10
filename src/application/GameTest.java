@@ -10,7 +10,7 @@ public class GameTest {
 
     public static void main(String[] args) throws Exception {
 
-        Sokoban newGame = new Sokoban(10, 10, 50);
+        Sokoban newGame = new Sokoban(13, 13, 50);
         /*
          * SokobanController2 snakeController2 = new
          * SokobanController2(newGame.getController());
@@ -26,7 +26,7 @@ public class GameTest {
 
         Image imgWall = ImageIO.read(new File("aoop-project/resources/wall.png"));
         Image scaledimgWall = imgWall.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconWall = new ImageIcon(scaledimgWall);        
+        ImageIcon imageIconWall = new ImageIcon(scaledimgWall);
         
         Image imgPlayer = ImageIO.read(new File("aoop-project/resources/player.png"));
         Image scaledimgPlayer = imgPlayer.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -67,11 +67,11 @@ public class GameTest {
         boxOnGoal.setTile(imageIconBoxOnGoal);
 
         newGame.addTile(5, player);
-        newGame.addTile(1, wall);
-        newGame.addTile(3, box);
-        newGame.addTile(2, goal);
-        newGame.addTile(0, floor);
-        newGame.addTile(4, boxOnGoal);   
+        newGame.addTile(4, wall);
+        newGame.addTile(0, box);
+        newGame.addTile(3, goal);
+        newGame.addTile(2, floor);
+        newGame.addTile(1, boxOnGoal);   
 
         newGame.getView().paintBoard();
     }

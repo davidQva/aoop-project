@@ -2,9 +2,16 @@ package framework;
 
 public abstract class AbstractTileModel {
 
-    private int[][] board;
-    private Controller controller;
-    private GameFrame frame;
+
+    //:q should the board be private? it is used alot in child classes
+    
+   
+     
+
+
+    protected int[][] board;
+    protected Controller controller;
+    protected GameFrame frame;
     protected GameView view;
 
     public AbstractTileModel(int col, int row, int size) {

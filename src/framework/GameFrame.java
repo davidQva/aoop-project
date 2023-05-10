@@ -11,6 +11,7 @@ public class GameFrame extends JFrame {
         this.add(board);    
         this.setSize(getPreferredSize());       
         this.setVisible(true);
+        this.setResizable(false);
 
     }
 

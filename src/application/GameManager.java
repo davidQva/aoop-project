@@ -1,8 +1,11 @@
 package application;
 
 import javax.sound.sampled.*;
+
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameManager {
     private int level;
@@ -11,7 +14,7 @@ public class GameManager {
 
     public GameManager() {
         level = 1;
-        isGameOver = false;
+        isGameOver = false; 
         // Other initialization logic
     }
 
@@ -31,6 +34,22 @@ public class GameManager {
             // Set the game over flag
             isGameOver = true;
         }
+    }
+
+    public void scanLevel(int[][] level, ArrayList ponterArr){
+
+       
+        for (int i = 0; i < level.length; i++) {
+            for (int j = 0; j < level[0].length; j++){
+                if (level[i][j] == 3)
+                {
+                    Point pointer = new Point(j, i);
+                    ponterArr.add(pointer);
+                }
+            }
+        }
+
+
     }
 
     public void playSound(String soundFilePath) {

@@ -1,16 +1,21 @@
 package application;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 import framework.AbstractTileModel;
 import framework.Direction;
 
 public class Sokoban extends AbstractTileModel {
 
-    private static final int EMPTY = 0;
-    private static final int WALL = 1;
-    private static final int TARGET = 2;
-    private static final int BOX = 3;
-    private static final int BOX_ON_TARGET = 4;
+    private static final int BOX = 0;
+    private static final int BOX_ON_TARGET = 1;
+    private static final int EMPTY = 2;
+    private static final int TARGET = 3;
+    private static final int WALL = 4;
     private static final int PLAYER = 5;
+    private ArrayList<Point> targetPositions;
+    //private Point[] targetPositions;
 
     private int playerX;
     private int playerY;
@@ -20,37 +25,48 @@ public class Sokoban extends AbstractTileModel {
     public Sokoban(int col, int row, int size) {
         super(col, row, size);
         gameManager = new GameManager();
+        targetPositions = new ArrayList<Point>();
         initializeBoard();
     }
 
-    private void initializeBoard() {
+    private void initializeBoard() {     
 
-        int[][] board = getBoard();
+      /*   int[][] board = {
+                { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
+                { 4, 3, 2, 2, 2, 2, 4, 3, 2, 2, 2, 3, 4 },
+                { 4, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 2, 4 },
+                { 4, 4, 4, 4, 2, 0, 2, 0, 2, 4, 4, 4, 4 },
+                { 4, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 4 },
+                { 4, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 4 },
+                { 4, 3, 2, 2, 2, 3, 4, 2, 2, 2, 2, 3, 4 },
+                { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 } }; */
 
-        // Set up your initial board configuration here
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                // Set the appropriate tile based on the row and column
-                if (row == 0 || row == board.length - 1 || col == 0 || col == board[0].length - 1) {
-                    // Set as WALL
-                    board[row][col] = WALL;
-                } else {
-                    // Set as EMPTY or TARGET based on the position
-                    if ((row + col) % 2 == 0) {
-                        board[row][col] = TARGET;
-                    } else {
-                        board[row][col] = EMPTY;
-                    }
-                }
-            }
-        }
+                int[][] board =       {
+                    {4,4,4,4,4,4,4,4,4,4,4,4,4},
+                    {4,3,2,2,2,2,2,3,2,2,2,3,4},
+                    {4,2,2,2,2,2,2,2,2,2,2,2,4},
+                    {4,2,2,2,2,2,2,2,2,2,2,2,4},
+                    {4,2,2,2,2,2,5,2,2,2,2,2,4},
+                    {4,2,2,2,2,0,2,0,2,2,2,2,4},
+                    {4,2,2,2,2,0,2,0,2,2,2,2,4},
+                    {4,2,2,2,2,0,2,0,2,2,2,2,4},
+                    {4,2,2,2,2,2,2,2,2,2,2,2,4},
+                    {4,2,2,2,2,2,2,2,2,2,2,2,4},
+                    {4,2,2,2,2,2,2,2,2,2,2,2,4},
+                    {4,3,2,2,2,3,2,2,2,2,2,3,4},
+                    {4,4,4,4,4,4,4,4,4,4,4,4,4}};
 
-        board[3][3] = PLAYER;
-        board[2][3] = BOX;
 
-        // Update the board state
-        setBoard(board);
-        // view.paintBoard();
+
+
+        gameManager.scanLevel(board, targetPositions);
+ 
+        setBoard(board);    
 
     }
 
@@ -72,14 +88,13 @@ public class Sokoban extends AbstractTileModel {
             default:
                 break;
         }
-    }
+    }    
 
-    /* public void moveUp() {
-        
-        int[][] board = getBoard();
+    public void findPlayer() {
+
         int playerX = -1;
         int playerY = -1;
-    
+
         // Find the current position of the player
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[0].length; col++) {
@@ -90,248 +105,276 @@ public class Sokoban extends AbstractTileModel {
                 }
             }
         }
-    
-        // Check if the player can move up
-        if (playerY > 0 && board[playerY - 1][playerX] != WALL) {
-            int destinationTile = board[playerY - 1][playerX];
-            // If the destination tile is empty or a target tile
-            if (destinationTile == EMPTY || destinationTile == TARGET) {
-                // Move the player
-                board[playerY][playerX] = (destinationTile == TARGET) ? TARGET : EMPTY;
-                board[playerY - 1][playerX] = PLAYER;
-                // Update the player's position
-                playerY--;
-    
-                // Check if the box can be pushed
-                if (destinationTile == TARGET && playerY > 0 && (board[playerY - 1][playerX] == BOX || board[playerY - 1][playerX] == BOX_ON_TARGET)) {
-                    int boxDestinationTile = board[playerY - 2][playerX];
-                    // If the box destination tile is empty or a target tile
-                    if (boxDestinationTile == EMPTY || boxDestinationTile == TARGET) {
-                        // Move the box
-                        board[playerY - 1][playerX] = (boxDestinationTile == TARGET) ? BOX_ON_TARGET : BOX;
-                        board[playerY - 2][playerX] = (boxDestinationTile == TARGET) ? TARGET : EMPTY;
-                    }
-                }
-            }
-        }
-    
-        // Update the board state
-        setBoard(board);
-        view.paintBoard();
-    } */
+        this.playerX = playerX;
+        this.playerY = playerY;
+    }
 
     public void moveUp() {
-        int[][] board = getBoard();
-        int playerX = -1;
-        int playerY = -1;
-    
-        // Find the current position of the player
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                if (board[row][col] == PLAYER) {
-                    playerX = col;
-                    playerY = row;
-                    break;
-                }
+
+        findPlayer();
+
+        int destX = playerX;
+        int destY = playerY - 1;
+
+        // Check if the player can move right
+        if (isValidMove(playerX, playerY, destX, destY)) {
+            // Move the player to the destination coordinates
+            int playerValue = board[playerY][playerX];
+            int destTile = board[destY][destX];
+
+            if (destTile == BOX || destTile == BOX_ON_TARGET) {
+                // Push the box if there is one
+                int boxX = destX;
+                int boxY = destY;
+                int boxDestX = destX;
+                int boxDestY = destY - 1;
+
+                moveBox(boxX, boxY, boxDestX, boxDestY);
             }
-        }
-    
-        // Check if the player can move up
-        if (playerY > 0 && board[playerY - 1][playerX] != WALL) {
-            // Move the player up
+
             board[playerY][playerX] = EMPTY;
-            board[playerY - 1][playerX] = PLAYER;
-    
-            // Update the player's position
-            this.playerX = playerX;
-            this.playerY = playerY - 1;
+            board[destY][destX] = PLAYER;
+
         }
-    
+
         // Update the board state
+
         setBoard(board);
         view.paintBoard();
+
     }
-    
 
     public void moveRight() {
+
+        findPlayer();
+
+        int destX = playerX + 1;
+        int destY = playerY;
+
+        // Check if the player can move right
+        if (isValidMove(playerX, playerY, destX, destY)) {
+            // Move the player to the destination coordinates
+            int playerValue = board[playerY][playerX];
+            int destTile = board[destY][destX];
+
+            if (destTile == BOX || destTile == BOX_ON_TARGET) {
+                // Push the box if there is one
+                int boxX = destX;
+                int boxY = destY;
+                int boxDestX = destX + 1;
+                int boxDestY = destY;
+
+                moveBox(boxX, boxY, boxDestX, boxDestY);
+            }
+
+            board[playerY][playerX] = EMPTY;
+            board[destY][destX] = PLAYER;
+
+        }
+
+        setBoard(board);
+        view.paintBoard();
+
     }
 
     public void moveLeft() {
-    }
 
-    public void moveDown() {
-        int[][] board = getBoard();
-        int playerX = -1;
-        int playerY = -1;
-    
-        // Find the current position of the player
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                if (board[row][col] == PLAYER) {
-                    playerX = col;
-                    playerY = row;
-                    break;
-                }
-            }
-        }
-    
-        // Calculate the destination coordinates
-        int destX = playerX;
-        int destY = playerY+1;
-    
+        findPlayer();
+
+        int destX = playerX - 1;
+        int destY = playerY;
+
         // Check if the move is valid
         if (isValidMove(playerX, playerY, destX, destY)) {
             // Move the player to the destination coordinates
             int playerValue = board[playerY][playerX];
             int destTile = board[destY][destX];
-    
+
+            if (destTile == BOX || destTile == BOX_ON_TARGET) {
+                // Push the box if there is one
+                int boxX = destX;
+                int boxY = destY;
+                int boxDestX = destX - 1;
+                int boxDestY = destY;
+
+                moveBox(boxX, boxY, boxDestX, boxDestY);
+            }
+
+            board[playerY][playerX] = EMPTY;
+            board[destY][destX] = PLAYER;
+
+        }
+
+        setBoard(board);
+        view.paintBoard();
+
+    }
+
+    public void moveDown() {
+
+        findPlayer();
+
+        // Calculate the destination coordinates
+        int destX = playerX;
+        int destY = playerY + 1;
+
+        // Check if the move is valid
+        if (isValidMove(playerX, playerY, destX, destY)) {
+            // Move the player to the destination coordinates
+            int playerValue = board[playerY][playerX];
+            int destTile = board[destY][destX];
+
             if (destTile == BOX || destTile == BOX_ON_TARGET) {
                 // Push the box if there is one
                 int boxX = destX;
                 int boxY = destY;
                 int boxDestX = destX;
                 int boxDestY = destY + 1;
-    
+
                 moveBox(boxX, boxY, boxDestX, boxDestY);
             }
-    
-            board[playerY][playerX] = destTile;
-            board[destY][destX] = playerValue;
-    
+
+            board[playerY][playerX] = EMPTY;
+            board[destY][destX] = PLAYER;
+
             // Update the board state and repaint
             setBoard(board);
             view.paintBoard();
-            
+
             // Check game over condition
-            checkGameOver();
+            // checkGameOver();
         }
     }
 
     private boolean isValidMove(int startX, int startY, int destX, int destY) {
-        int[][] board = getBoard();
-        int boardWidth = board[0].length;
-        int boardHeight = board.length;
-    
+
+        checkGameOver();
+
         // Check if the destination coordinates are within the board bounds
-        if (destX < 0 || destX >= boardWidth || destY < 0 || destY >= boardHeight) {
+        if (destX < 0 || destX >= board.length || destY < 0 || destY >= board[0].length) {
             return false;
         }
-    
+
         // Check if the destination tile is a wall
         if (board[destY][destX] == WALL) {
             return false;
         }
-    
+
         // Check if the destination tile is a box or box on a target
         if (board[destY][destX] == BOX || board[destY][destX] == BOX_ON_TARGET) {
             // Check if the box can be pushed
             int boxDestX = destX + (destX - startX);
             int boxDestY = destY + (destY - startY);
-    
+
             // Check if the box destination is valid
             if (!isValidMove(destX, destY, boxDestX, boxDestY)) {
                 return false;
             }
-        }
-    
+        }       
         return true;
     }
-    
 
     public void moveBox(int boxX, int boxY, int destX, int destY) {
-        int[][] board = getBoard();
-    
+
         // Check if the destination is a valid position for the box
         if (isValidBoxMove(boxX, boxY, destX, destY)) {
             // Move the box to the destination coordinates
-            int boxValue = board[boxY][boxX];
-            board[boxY][boxX] = EMPTY;
-            board[destY][destX] = boxValue;
-    
+            // int boxValue = board[boxY][boxX];
+            board[boxY][boxX] = PLAYER;
+            board[destY][destX] = BOX;
+
             // Update the board state and repaint
             setBoard(board);
-            view.paintBoard();
+            // view.paintBoard();            
         }
     }
-    
+
     private boolean isValidBoxMove(int boxX, int boxY, int destX, int destY) {
-        int[][] board = getBoard();
-        int playerX = -1;
-        int playerY = -1;
-    
-        // Find the current position of the player
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                if (board[row][col] == PLAYER) {
-                    playerX = col;
-                    playerY = row;
-                    break;
-                }
-            }
-        }
-    
+
+        findPlayer();
+
         // Calculate the distance between the player and the box
         int distanceX = Math.abs(boxX - playerX);
         int distanceY = Math.abs(boxY - playerY);
-    
+
         // Check if the player can push the box
         if ((distanceX == 1 && distanceY == 0) || (distanceX == 0 && distanceY == 1)) {
             // Check if the destination is empty or a target tile
             int destTile = board[destY][destX];
             return destTile == EMPTY || destTile == TARGET;
         }
-    
+
         return false;
     }
-    
 
+    private boolean isBoxStuck(int col, int row) {
 
+        boolean up = (row > 0
+                && (board[row - 1][col] == WALL || board[row - 1][col] == BOX || board[row - 1][col] == BOX_ON_TARGET));
+        boolean down = (row < board.length - 1
+                && (board[row + 1][col] == WALL || board[row + 1][col] == BOX || board[row + 1][col] == BOX_ON_TARGET));
+        boolean left = (col > 0
+                && (board[row][col - 1] == WALL || board[row][col - 1] == BOX || board[row][col - 1] == BOX_ON_TARGET));
+        boolean right = (col < board[row].length - 1
+                && (board[row][col + 1] == WALL || board[row][col + 1] == BOX || board[row][col + 1] == BOX_ON_TARGET));
+
+                for (Point target : targetPositions) {
+                    int targetX = target.x;
+                    int targetY = target.y;
     
+                    if (targetX == col && targetY == row) {
+                        board[row][col] = BOX_ON_TARGET;
+                        checkWin();
+                        return false;
+                    }                 
+                }
+
+        if (up && left || up && right || down && left || down && right) {            
+            return true;
+        }
+       
+        return false;
+
+    }
+
+    public void resetLevel() {
+
+        // Reset the board state
+        setBoard(board);
+        view.paintBoard();
+    }
 
     public boolean checkGameOver() {
 
-        int[][] board = getBoard();
-        boolean isGameOver = true;
-
         for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
+            for (int col = 0; col < board[row].length; col++) {
                 if (board[row][col] == BOX) {
-                    // Check if the box is not on a target tile
-                    if (board[row][col] != TARGET) {
-                        isGameOver = false;
-                        break;
-                    }
-                    // Check if there is a neighboring empty tile or target tile
-                    if (row > 0 && (board[row - 1][col] == EMPTY || board[row - 1][col] == TARGET)) {
-                        isGameOver = false;
-                        break;
-                    }
-                    if (row < board.length - 1 && (board[row + 1][col] == EMPTY || board[row + 1][col] == TARGET)) {
-                        isGameOver = false;
-                        break;
-                    }
-                    if (col > 0 && (board[row][col - 1] == EMPTY || board[row][col - 1] == TARGET)) {
-                        isGameOver = false;
-                        break;
-                    }
-                    if (col < board[0].length - 1 && (board[row][col + 1] == EMPTY || board[row][col + 1] == TARGET)) {
-                        isGameOver = false;
-                        break;
+                    // Check if the box is stuck (surrounded by walls or other boxes)
+                    if (isBoxStuck(col, row)) {
+                        System.out.println("Game Over! Box is stuck.");
+                        return true;
                     }
                 }
             }
-            if (!isGameOver) {
-                break;
+        }
+
+        return false;
+    }
+
+    public boolean checkWin() {
+
+        for (Point target : targetPositions) {
+            int targetX = target.x;
+            int targetY = target.y;
+
+            if (board[targetY][targetX] != BOX_ON_TARGET) {
+                return false;
             }
         }
 
-        if (isGameOver) {
-            System.out.println("Game Over! All boxes are either in the correct places or stuck.");
-            // Trigger any necessary game over actions
-            // For example, display a game over screen or reset the level
-        }
+        System.out.println("You win!");
 
-        return isGameOver;
+        return true;
     }
 
 }
