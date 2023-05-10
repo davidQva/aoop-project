@@ -49,19 +49,19 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
        
-        Direction direction = inputController.move();                      
+        GameStateAndDiraction direction = inputController.move();                      
 
-        if (direction == Direction.UP) {
-            model.move(Direction.UP);
+        if (direction == GameStateAndDiraction.UP) {
+            model.move(GameStateAndDiraction.UP);
         }
-        if (direction == Direction.DOWN) {
-            model.move(Direction.DOWN);
+        if (direction == GameStateAndDiraction.DOWN) {
+            model.move(GameStateAndDiraction.DOWN);
         }
-        if (direction == Direction.LEFT) {
-            model.move(Direction.LEFT);
+        if (direction == GameStateAndDiraction.LEFT) {
+            model.move(GameStateAndDiraction.LEFT);
         }
-        if (direction == Direction.RIGHT) {
-            model.move(Direction.RIGHT);
+        if (direction == GameStateAndDiraction.RIGHT) {
+            model.move(GameStateAndDiraction.RIGHT);
         }
 
         //view.paintBoard();

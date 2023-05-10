@@ -5,20 +5,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import framework.Controller;
-import framework.Direction;
+import framework.GameStateAndDiraction;
 import framework.InputController;
 
 public class SokobanController2 implements InputController, MouseListener {
 
     private Controller model;
-    private Direction direction;
+    private GameStateAndDiraction direction;
 
     public SokobanController2(Controller model) {
         this.model = model;
     }
 
     @Override
-    public Direction move() {
+    public GameStateAndDiraction move() {
         return this.direction;
     }
 

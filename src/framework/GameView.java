@@ -5,20 +5,26 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GameView extends JPanel {
+public class GameView extends JPanel implements GameObserver{
    
     private AbstractTileModel game;
     private TileRegistry tileRegistry;
     private GridLayout grid;
     private JLabel[][] label;
 
-    public GameView(AbstractTileModel game, int size) {             
+     
+    @Override
+    public void updateGame(int[][] board, GameStateAndDiraction direction) {
+        paintBoard(board);
+    }
+ 
+     public GameView(AbstractTileModel game, int size) {             
        
         this.game = game;
         int row = game.getBoard().length;
         int col = game.getBoard()[0].length;
 
-        tileRegistry = new TileRegistry();      
+        tileRegistry = new TileRegistry();     
         grid = new GridLayout(row, col);
         this.setLayout(grid);
 
@@ -32,12 +38,12 @@ public class GameView extends JPanel {
             }
         }
         
-    }
+    } 
 
-    public void paintBoard() { 
-       int[][] board = game.getBoard();
+    public void paintBoard(int[][] board) {         
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[0].length; c++) {
+                if(tileRegistry.getPrototypeTile(board[r][c]) != null)
                 setTile(tileRegistry.getPrototypeTile(board[r][c]), c, r);
             }
         }

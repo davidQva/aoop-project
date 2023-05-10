@@ -6,6 +6,8 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import framework.GameSound;
+
 public class GameTest {
 
     public static void main(String[] args) throws Exception {
@@ -21,8 +23,15 @@ public class GameTest {
         newGame.getController().setController(snakeController);
         newGame.getFrame().addKeyListener(snakeController);
         SokobanTile prototype = new SokobanTile();
-        newGame.addTile(99, prototype);   
-
+        newGame.addTile(99, prototype); 
+        
+        PrintOut printOut = new PrintOut();
+        
+        newGame.attach(printOut);
+        
+        GameSound sound = new GameSound();
+        
+        newGame.attach(sound);
 
         Image imgWall = ImageIO.read(new File("aoop-project/resources/wall.png"));
         Image scaledimgWall = imgWall.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -67,13 +76,14 @@ public class GameTest {
         boxOnGoal.setTile(imageIconBoxOnGoal);
 
         newGame.addTile(5, player);
+        newGame.addTile(6, player);
         newGame.addTile(4, wall);
         newGame.addTile(0, box);
         newGame.addTile(3, goal);
         newGame.addTile(2, floor);
         newGame.addTile(1, boxOnGoal);   
 
-        newGame.getView().paintBoard();
+      // newGame.getView().paintBoard();
     }
 
 }
