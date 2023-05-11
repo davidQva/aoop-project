@@ -1,9 +1,14 @@
 package framework;
+import java.net.URL;
 import java.util.ArrayList;
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public abstract class AbstractTileModel {
-    //:q should the board be private? it is used alot in child classes
-
+    
     protected int[][] board;
     protected Controller controller;
     protected GameFrame frame;
@@ -58,6 +63,24 @@ public abstract class AbstractTileModel {
 
     public Tile getTile(Integer key) {
         return view.getTiles(key);
+    }
+
+    public void addTile(String fileNamePNG, int x, Tile protoType) {
+        
+        Tile thisTile = (Tile)protoType.clone();
+        URL url = getClass().getResource("/audio/" + fileNamePNG + ".png");  
+        Image imgWall;
+
+        try {
+            imgWall = ImageIO.read(url);
+            Image scaledimgWall = imgWall.getScaledInstance(view.getTileSize(), view.getTileSize(), Image.SCALE_SMOOTH);
+            ImageIcon imageIconWall = new ImageIcon(scaledimgWall);
+            thisTile.setTile(imageIconWall);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }      
+        view.addTiles(x, thisTile);      
     }
 
     public abstract void move(GameStateAndDiraction direction);

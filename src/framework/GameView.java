@@ -5,12 +5,14 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class GameView extends JPanel implements GameObserver{
    
     private AbstractTileModel game;
     private TileRegistry tileRegistry;
     private GridLayout grid;
     private JLabel[][] label;
+    private int tileSize;
 
      
     @Override
@@ -18,8 +20,9 @@ public class GameView extends JPanel implements GameObserver{
         paintBoard(board);
     }
  
-     public GameView(AbstractTileModel game, int size) {             
+     public GameView(AbstractTileModel game, int tileSize) {             
        
+        this.tileSize = tileSize;
         this.game = game;
         int row = game.getBoard().length;
         int col = game.getBoard()[0].length;
@@ -33,7 +36,7 @@ public class GameView extends JPanel implements GameObserver{
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
                 label[r][c] = new JLabel();
-                label[r][c].setPreferredSize(new Dimension(size, size));
+                label[r][c].setPreferredSize(new Dimension(tileSize, tileSize));
                 this.add(label[r][c]);
             }
         }
@@ -60,6 +63,10 @@ public class GameView extends JPanel implements GameObserver{
 
     public Tile getTiles(Integer key) {
         return tileRegistry.getPrototypeTile(key);
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
     
 }

@@ -2,14 +2,26 @@ package application;
 
 import java.awt.Image;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import framework.GameMonitor;
 import framework.GameSound;
 
-public class GameTest {
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
+import java.io.IOException;
+
+import java.io.IOException;
+import java.net.URL;
+
+
+
+
+
+public class GameTest {    
+  
     public static void main(String[] args) throws Exception {
 
         Sokoban newGame = new Sokoban(13, 13, 50);
@@ -23,67 +35,25 @@ public class GameTest {
         newGame.getController().setController(snakeController);
         newGame.getFrame().addKeyListener(snakeController);
         SokobanTile prototype = new SokobanTile();
-        newGame.addTile(99, prototype); 
-        
+        newGame.addTile(99, prototype);
+         
         PrintOut printOut = new PrintOut();
         
         newGame.attach(printOut);
         
-        GameSound sound = new GameSound();
+                  
+       GameSound sound = new GameSound();
         
-        newGame.attach(sound);
-
-        Image imgWall = ImageIO.read(new File("aoop-project/resources/wall.png"));
-        Image scaledimgWall = imgWall.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconWall = new ImageIcon(scaledimgWall);
+        newGame.attach(sound);    
         
-        Image imgPlayer = ImageIO.read(new File("aoop-project/resources/player.png"));
-        Image scaledimgPlayer = imgPlayer.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconPlayer = new ImageIcon(scaledimgPlayer);
-
-        Image imgBox = ImageIO.read(new File("aoop-project/resources/crate.png"));
-        Image scaledimgBox = imgBox.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconBox = new ImageIcon(scaledimgBox);
-    
-        Image imgGoal = ImageIO.read(new File("aoop-project/resources/blankmarked.png"));
-        Image scaledimgGoal = imgGoal.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconGoal = new ImageIcon(scaledimgGoal);
-
-        Image imgFloor = ImageIO.read(new File("aoop-project/resources/blank.png"));
-        Image scaledimgFloor = imgFloor.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconFloor = new ImageIcon(scaledimgFloor);
-
-
-        Image imgBoxOnGoal = ImageIO.read(new File("aoop-project/resources/cratemarked.png"));
-        Image scaledimgBoxOnGoal = imgBoxOnGoal.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon imageIconBoxOnGoal = new ImageIcon(scaledimgBoxOnGoal);
-              
-  
-        // ImageIcon imageIconPlayerOnGoal = new
-        // ImageIcon("src/application/playerOnGoal.png");
-
-        SokobanTile player = prototype.clone();     
-        player.setTile(imageIconPlayer);
-        SokobanTile wall = prototype.clone(); 
-        wall.setTile(imageIconWall);
-        SokobanTile box = prototype.clone(); 
-        box.setTile(imageIconBox);
-        SokobanTile goal = prototype.clone(); 
-        goal.setTile(imageIconGoal);
-        SokobanTile floor = prototype.clone(); 
-        floor.setTile(imageIconFloor);
-        SokobanTile boxOnGoal = prototype.clone();
-        boxOnGoal.setTile(imageIconBoxOnGoal);
-
-        newGame.addTile(5, player);
-        newGame.addTile(6, player);
-        newGame.addTile(4, wall);
-        newGame.addTile(0, box);
-        newGame.addTile(3, goal);
-        newGame.addTile(2, floor);
-        newGame.addTile(1, boxOnGoal);   
-
-      // newGame.getView().paintBoard();
+        newGame.addTile("crate", 0, prototype);
+        newGame.addTile("cratemarked", 1, prototype);       
+        newGame.addTile("blank", 2, prototype);
+        newGame.addTile("blankmarked", 3, prototype);
+        newGame.addTile("wall", 4, prototype);
+        newGame.addTile("player", 5, prototype);
+        newGame.addTile("player", 6, prototype); 
+             
     }
 
 }

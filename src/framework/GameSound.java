@@ -32,10 +32,10 @@ public class GameSound implements GameObserver {
     }
 
     private void loadEffects() {
-        String[] effects = { "move2"};
+        String[] effects = { "move2", "pling" };
         this.effects = new Clip[effects.length];
         for (int i = 0; i < effects.length; i++) {
-            this.effects[i]= getClip(effects[i]);
+            this.effects[i] = getClip(effects[i]);
         }
     }
 
@@ -50,7 +50,7 @@ public class GameSound implements GameObserver {
     }
 
     private Clip getClip(String effect) {
-        
+
         URL url = getClass().getResource("/audio/" + effect + ".wav");
         AudioInputStream audio;
 
@@ -65,31 +65,47 @@ public class GameSound implements GameObserver {
         return null;
     }
 
-    public void Mute(){
+    public void Mute() {
         this.effectMute = !effectMute;
         for (Clip clip : effects) {
             BooleanControl muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
             muteControl.setValue(effectMute);
         }
-        if(!effectMute){
+        if (!effectMute) {
             playEffect(MOVE);
-    }
+        }
     }
 
     @Override
     public void updateGame(int[][] board, GameStateAndDiraction update) {
 
-        if(update == GameStateAndDiraction.UP)
+        if (prevBoard == null) {
+            this.prevBoard = new int[board.length][board[0].length];
+        }
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+
+                if (board[i][j] == 1 && prevBoard[i][j] != -1) {
+                    prevBoard[i][j] = -1;
+                    playEffect(BOX_ON_TARGET);
+                }
+            }
+        }
+
+        if (update == GameStateAndDiraction.UP)
             playEffect(MOVE);
-        else if(update == GameStateAndDiraction.DOWN)
+        else if (update == GameStateAndDiraction.DOWN)
             playEffect(MOVE);
-        else if(update == GameStateAndDiraction.LEFT)
+        else if (update == GameStateAndDiraction.LEFT)
             playEffect(MOVE);
-        else if(update == GameStateAndDiraction.RIGHT)
+        else if (update == GameStateAndDiraction.RIGHT)
             playEffect(MOVE);
 
-      /*   else if(update == GameStateAndDiraction.BOX_ON_TARGET)
-            playEffect(BOX_ON_TARGET); */
+        /*
+         * else if(update == GameStateAndDiraction.BOX_ON_TARGET)
+         * playEffect(BOX_ON_TARGET);
+         */
     }
 
 }

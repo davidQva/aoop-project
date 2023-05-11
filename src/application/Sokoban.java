@@ -65,7 +65,7 @@ public class Sokoban extends AbstractTileModel {
 
         gameManager.scanLevel(board, targetPositions);
 
-        setBoard(board, GameStateAndDiraction.NONE);
+        setBoard(board, GameStateAndDiraction.GAME_START);
 
     }
 
@@ -304,11 +304,7 @@ public class Sokoban extends AbstractTileModel {
                 board[destY][destX] = BOX_ON_TARGET;
             } else {
                 board[destY][destX] = BOX;
-            }
-
-            // Update the board state and repaint
-            setBoard(board, getDirection());
-            // view.paintBoard();
+            }       
         }
     }
 

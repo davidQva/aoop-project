@@ -2,20 +2,12 @@ package framework;
 
 import java.io.*;
 
-public class GameMonitor implements GameObserver, Serializable {
-    
-    private int[][] field;
-	private String state;
-	private int start = 1;
-	
-
+public class GameMonitor implements GameObserver, Serializable { 
 
 	@Override
 	public void updateGame(int[][] field, GameStateAndDiraction update) 
 	{
-		this.field = field;
-		this.state = update;
-		
+				
 		/*
 		 * Checks the state of the game.
 		 * if it's initiated, won or lost.
@@ -23,17 +15,17 @@ public class GameMonitor implements GameObserver, Serializable {
 		 * */
 		switch(update) 
 		{
-		case "Game Start" ->
+		case GAME_START ->
 			System.out.println(update + "\nCurrent Game state:");
-		case "Game Won" ->
+		case GAME_WON ->
 			System.out.println(update + "\nGame Won");
-		case "Game Lost" ->
+		case GAME_OVER ->
 			System.out.println(update + ("\nGame Lost"));
-		case "Game Paused" ->
+		case GAME_PAUSE ->
 			System.out.println(update + "\nGame Paused");
-		case "Game UnPaused" ->
+		case GAME_UNPAUSE ->
 			System.out.println(update + "\nGame UnPaused");
-		case "Game Reset" ->
+		case GAME_RESTART ->
 			System.out.println(update + "\nGame Reset");
 		default ->
 			System.out.println("Moved : " + update + "\n Current Game state");
@@ -53,19 +45,21 @@ public class GameMonitor implements GameObserver, Serializable {
 		}
 		System.out.println(CurrentGameState);
 	
-		logPrinter();
-		start = 0;
+		logPrinter(field,update);
+		//start = 0;
 		
 	}
 	
-	public void logPrinter() 
+	public void logPrinter(int [][] field, GameStateAndDiraction update) 
+	 
 	{
 		int[][] numbers = field;
 		String fileName = "MostRecentGameLog.txt";
 		File outputFile = new File(fileName);
 
-		if(outputFile.exists() && start == 1)
+		/* if(outputFile.exists() && start == 1)
 			outputFile.delete();
+		 */
 		
 		try 
 		{	
@@ -80,7 +74,7 @@ public class GameMonitor implements GameObserver, Serializable {
 				}
 				bw.newLine();
 			}
-			bw.write(state);
+			bw.write(update.toString());
 			bw.newLine();
 			bw.close();
 			fw.close();

@@ -51,17 +51,6 @@ public class GameManager {
 
 
     }
-
-    public void playSound(String soundFilePath) {
-        try {
-            File soundFile = new File(soundFilePath);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
+   
 }
 
