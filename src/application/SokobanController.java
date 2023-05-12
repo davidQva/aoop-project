@@ -45,7 +45,10 @@ public class SokobanController implements InputController, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_P) {
             this.direction = GameStateAndDirection.GAME_PAUSE;
         }
-
+        
+        if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S 
+        || e.getKeyCode() == KeyEvent.VK_A ||e.getKeyCode() == KeyEvent.VK_D
+        || e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_P)
         controller.actionPerformed(null);
     }        
 

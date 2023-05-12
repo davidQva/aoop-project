@@ -4,6 +4,7 @@ import java.io.*;
 
 public class GameMonitor implements GameObserver, Serializable { 
 
+	private int start = 1;
 	@Override
 	public void updateGame(int[][] field, GameStateAndDirection update) 
 	{
@@ -46,7 +47,6 @@ public class GameMonitor implements GameObserver, Serializable {
 		System.out.println(CurrentGameState);
 	
 		logPrinter(field,update);
-		//start = 0;
 		
 	}
 	
@@ -57,9 +57,10 @@ public class GameMonitor implements GameObserver, Serializable {
 		String fileName = "MostRecentGameLog.txt";
 		File outputFile = new File(fileName);
 
-		/* if(outputFile.exists() && start == 1)
+		 if(outputFile.exists() && start == 1) {
 			outputFile.delete();
-		 */
+			start = 0;
+		 }
 		
 		try 
 		{	
