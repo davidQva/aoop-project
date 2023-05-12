@@ -40,7 +40,8 @@ public class GameTest {
         newGame.addTile("player", 6, prototype);
 
         newGame.repaintBoard();        
-
+        //skit också...
+        
     }
 
 }
