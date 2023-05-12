@@ -1,4 +1,5 @@
 package framework;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Image;
@@ -8,21 +9,23 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public abstract class AbstractTileModel {
-    
+
     protected int[][] board;
     protected Controller controller;
     protected GameFrame frame;
-    protected GameView view;  
+    protected GameView view;
+    protected GameStateAndDirection gameStatus;
+    protected GameStateAndDirection gameStarted;
+    protected GameStateAndDirection update;
     private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
-    private GameStateAndDiraction direction;
-    
-    public void attach(GameObserver observer) {       
+
+    public void attach(GameObserver observer) {
         this.observers.add(observer);
     }
 
     public void notifyAllObservers() {
         for (GameObserver observer : observers) {
-            observer.updateGame(board, direction);
+            observer.updateGame(board, update);
         }
     }
 
@@ -34,8 +37,8 @@ public abstract class AbstractTileModel {
         attach(view);
     }
 
-    public GameStateAndDiraction getDirection() {
-        return direction;
+    public GameStateAndDirection getUpdate() {
+        return update;
     }
 
     public Controller getController() {
@@ -46,17 +49,10 @@ public abstract class AbstractTileModel {
         return frame;
     }
 
-
     public int[][] getBoard() {
         return board;
-    }
-    
-    public void setBoard(int[][] board, GameStateAndDiraction direction) {
-        this.board = board;
-        this.direction = direction;
-        notifyAllObservers();
-    }    
-    
+    }  
+
     public void addTile(Integer key, Tile tile) {
         view.addTiles(key, tile);
     }
@@ -66,9 +62,9 @@ public abstract class AbstractTileModel {
     }
 
     public void addTile(String fileNamePNG, int x, Tile protoType) {
-        
-        Tile thisTile = (Tile)protoType.clone();
-        URL url = getClass().getResource("/audio/" + fileNamePNG + ".png");  
+
+        Tile thisTile = (Tile) protoType.clone();
+        URL url = getClass().getResource("/audio/" + fileNamePNG + ".png");
         Image imgWall;
 
         try {
@@ -79,11 +75,15 @@ public abstract class AbstractTileModel {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }      
-        view.addTiles(x, thisTile);      
+        }
+        view.addTiles(x, thisTile);
     }
 
-    public abstract void move(GameStateAndDiraction direction);
+    public void repaintBoard() {
+        view.paintBoard(board);
+    }
+
+    public abstract void input(GameStateAndDirection direction);
 
     public abstract void moveUp();
 
@@ -92,5 +92,9 @@ public abstract class AbstractTileModel {
     public abstract void moveLeft();
 
     public abstract void moveRight();
+
+    public abstract void setBoard();
+
+    public abstract void update();
 
 }

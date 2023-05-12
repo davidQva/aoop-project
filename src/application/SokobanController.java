@@ -3,12 +3,12 @@ package application;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import framework.Controller;
-import framework.GameStateAndDiraction;
+import framework.GameStateAndDirection;
 import framework.InputController;
 
 public class SokobanController implements InputController, KeyListener {
 
-    GameStateAndDiraction direction;
+    GameStateAndDirection direction;
     private Controller controller;
 
     public SokobanController(Controller model) {
@@ -16,7 +16,7 @@ public class SokobanController implements InputController, KeyListener {
     }
 
     @Override
-    public GameStateAndDiraction move() {
+    public GameStateAndDirection move() {
         return this.direction;
     }
 
@@ -28,17 +28,24 @@ public class SokobanController implements InputController, KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            this.direction = GameStateAndDiraction.UP;
+            this.direction = GameStateAndDirection.UP;
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            this.direction = GameStateAndDiraction.DOWN;
+            this.direction = GameStateAndDirection.DOWN;
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            this.direction = GameStateAndDiraction.LEFT;
+            this.direction = GameStateAndDirection.LEFT;
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            this.direction = GameStateAndDiraction.RIGHT;
-        }        
+            this.direction = GameStateAndDirection.RIGHT;
+        } 
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            this.direction = GameStateAndDirection.GAME_RESTART;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            this.direction = GameStateAndDirection.GAME_PAUSE;
+        }
+
         controller.actionPerformed(null);
     }        
 

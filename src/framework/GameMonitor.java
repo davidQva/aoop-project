@@ -5,7 +5,7 @@ import java.io.*;
 public class GameMonitor implements GameObserver, Serializable { 
 
 	@Override
-	public void updateGame(int[][] field, GameStateAndDiraction update) 
+	public void updateGame(int[][] field, GameStateAndDirection update) 
 	{
 				
 		/*
@@ -50,7 +50,7 @@ public class GameMonitor implements GameObserver, Serializable {
 		
 	}
 	
-	public void logPrinter(int [][] field, GameStateAndDiraction update) 
+	public void logPrinter(int [][] field, GameStateAndDirection update) 
 	 
 	{
 		int[][] numbers = field;

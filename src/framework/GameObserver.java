@@ -2,6 +2,6 @@ package framework;
 
 public interface GameObserver {
 
-    public void updateGame(int[][] board, GameStateAndDiraction direction);
+    public void updateGame(int[][] board, GameStateAndDirection direction);
 
 }

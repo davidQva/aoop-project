@@ -1,4 +1,5 @@
 package framework;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
@@ -13,6 +14,6 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
 
-    }
+    }    
 
 }

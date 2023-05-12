@@ -7,23 +7,28 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import application.GameManager;
+
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class GameSound implements GameObserver {
 
     int[][] prevBoard;
-    GameStateAndDiraction prevState;
 
     public static int MOVE = 0;
     public static int BOX_ON_TARGET = 1;
 
-    private float volume = 0.5f;
+    private float volume = 0.3f;
     private Clip[] effects;
     private boolean effectMute = false;
 
     public GameSound() {
         loadEffects();
+        updateEffectVolume();
     }
 
     public void playEffect(int effect) {
@@ -77,35 +82,29 @@ public class GameSound implements GameObserver {
     }
 
     @Override
-    public void updateGame(int[][] board, GameStateAndDiraction update) {
+    public void updateGame(int[][] board, GameStateAndDirection update) {
 
-        if (prevBoard == null) {
-            this.prevBoard = new int[board.length][board[0].length];
-        }
+        if (prevBoard == null)
+            prevBoard = new int[board.length][board[0].length];
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
 
-                if (board[i][j] == 1 && prevBoard[i][j] != -1) {
-                    prevBoard[i][j] = -1;
+                if (board[i][j] == 1 && prevBoard[i][j] == 3) {
                     playEffect(BOX_ON_TARGET);
                 }
+                prevBoard[i][j] = board[i][j];
             }
         }
 
-        if (update == GameStateAndDiraction.UP)
+        if (update == GameStateAndDirection.UP)
             playEffect(MOVE);
-        else if (update == GameStateAndDiraction.DOWN)
+        else if (update == GameStateAndDirection.DOWN)
             playEffect(MOVE);
-        else if (update == GameStateAndDiraction.LEFT)
+        else if (update == GameStateAndDirection.LEFT)
             playEffect(MOVE);
-        else if (update == GameStateAndDiraction.RIGHT)
+        else if (update == GameStateAndDirection.RIGHT)
             playEffect(MOVE);
-
-        /*
-         * else if(update == GameStateAndDiraction.BOX_ON_TARGET)
-         * playEffect(BOX_ON_TARGET);
-         */
     }
 
 }
