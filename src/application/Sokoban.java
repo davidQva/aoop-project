@@ -19,11 +19,17 @@ public class Sokoban extends AbstractTileModel {
 
     private int playerX;
     private int playerY;
+    
+    private int col,row;
 
     GameManager gameManager;
 
     public Sokoban(int col, int row, int size) {
         super(col, row, size);
+        
+        this.col = col;
+        this.row = row;
+  
         gameManager = new GameManager();
         targetPositions = new ArrayList<Point>();
         initializeBoard();
@@ -92,14 +98,14 @@ public class Sokoban extends AbstractTileModel {
 
         // finds the target positions and adds them to the targetPositions arraylist
         //gameManager.scanLevel(board, targetPositions);   
-    	int[][] board = gameManager.fileLevelScan("resources/map01.txt", targetPositions);
+    	int[][] board = gameManager.fileLevelScan("resources/map03.txt", targetPositions, col, row);
     	gameStarted = GameStateAndDirection.GAME_START;
     	Update(board, GameStateAndDirection.GAME_START);
     	
     	//--test för att starta en annan bana ta bort kommentar här och nere vid check win--
     	/*if(gameStatus == GameStateAndDirection.GAME_WON) 
     	{
-    		board = gameManager.fileLevelScan("resources/map02.txt", targetPositions);
+    		board = gameManager.fileLevelScan("resources/map02.txt", targetPositions, col, row);
     		gameStarted = GameStateAndDirection.GAME_START;
     		findPlayerAndUpdatePos();
     		Update(board, GameStateAndDirection.GAME_START);
@@ -434,8 +440,9 @@ public class Sokoban extends AbstractTileModel {
                 return false;
             }
         }
-        //gameStatus = GameStateAndDirection.GAME_WON; test för att starta nästa bana
+        //if(gameStatus = GameStateAndDirection.GAME_WON); test för att starta nästa bana
         //initializeBoard();
+        
         gameStatus = GameStateAndDirection.GAME_WON;
         return true;
     }

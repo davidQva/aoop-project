@@ -56,35 +56,35 @@ public class GameManager {
 
     }
     
-    public int[][] fileLevelScan(String filePath, ArrayList pointArr) 
+    public int[][] fileLevelScan(String filePath, ArrayList pointArr, int col, int row) 
     {
-    	int[][] array = new int[13][13];
+    	int[][] array = new int[col][row];
     	String filepath = filePath;
     	
 		try {
 			//InputStream is = getClass().getResourceAsStream(filepath);
 			BufferedReader br = new BufferedReader(new FileReader(filepath));
-			int col = 0;
-			int row = 0;
-			while(col < 13 && row < 13) 
+			int coll = 0;
+			int roww = 0;
+			while(coll < col && roww < row) 
 			{
 				String line = br.readLine();
 				
-					while(row < 13) 
+					while(roww < row) 
 				{
 					String numbers[] = line.split(" ");
-					int num = Integer.parseInt(numbers[row]);
+					int num = Integer.parseInt(numbers[roww]);
 					
-					array[col][row] = num;
+					array[coll][roww] = num;
 					
 					if(num == 3) {
-						Point point = new Point(row,col);
+						Point point = new Point(roww,coll);
 						pointArr.add(point);
 					}
-					row++;
+					roww++;
 				}
-					row = 0;
-					col++;
+					roww = 0;
+					coll++;
 			}
 			br.close();
 		} 
