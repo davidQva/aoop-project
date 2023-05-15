@@ -6,12 +6,12 @@ import framework.Controller;
 import framework.GameStateAndDirection;
 import framework.InputController;
 
-public class SokobanController implements InputController, KeyListener {
+public class KeyboardController implements InputController, KeyListener {
 
     GameStateAndDirection direction;
     private Controller controller;
 
-    public SokobanController(Controller model) {
+    public KeyboardController(Controller model) {
         this.controller = model;
     }
 
@@ -38,13 +38,7 @@ public class SokobanController implements InputController, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
             this.direction = GameStateAndDirection.RIGHT;
-        } 
-        if (e.getKeyCode() == KeyEvent.VK_R) {
-            this.direction = GameStateAndDirection.GAME_RESTART;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_P) {
-            this.direction = GameStateAndDirection.GAME_PAUSE;
-        }
+        }        
         
         if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S 
         || e.getKeyCode() == KeyEvent.VK_A ||e.getKeyCode() == KeyEvent.VK_D

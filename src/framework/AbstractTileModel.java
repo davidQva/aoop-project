@@ -18,17 +18,17 @@ public abstract class AbstractTileModel {
     protected GameStateAndDirection gameStarted;
     protected GameStateAndDirection update;
     private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
-
+    
     public void attach(GameObserver observer) {
         this.observers.add(observer);
     }
-
+    
     public void notifyAllObservers() {
         for (GameObserver observer : observers) {
-            observer.updateGame(board, update);
+            observer.notify(board, update);
         }
     }
-
+    
     public AbstractTileModel(int col, int row, int size) {
         board = new int[col][row];
         view = new GameView(this, size);
@@ -47,11 +47,11 @@ public abstract class AbstractTileModel {
 
     public GameFrame getFrame() {
         return frame;
-    }
-
-    public int[][] getBoard() {
-        return board;
     }  
+
+    public GameView getView() {
+        return view;
+    }
 
     public void addTile(Integer key, Tile tile) {
         view.addTiles(key, tile);
@@ -61,10 +61,23 @@ public abstract class AbstractTileModel {
         return view.getTiles(key);
     }
 
+    public void getTileSize() {
+        view.getTileSize();
+    }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(int[][] board) {
+        this.board = board;
+        notifyAllObservers();
+    }   
+
     public void addTile(String fileNamePNG, int x, Tile protoType) {
 
         Tile thisTile = (Tile) protoType.clone();
-        URL url = getClass().getResource("/audio/" + fileNamePNG + ".png");
+        URL url = ClassLoader.getSystemResource(fileNamePNG + ".png");
         Image imgWall;
 
         try {
@@ -93,8 +106,6 @@ public abstract class AbstractTileModel {
 
     public abstract void moveRight();
 
-    public abstract void setBoard();
 
-    public abstract void update();
 
 }

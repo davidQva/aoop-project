@@ -10,5 +10,7 @@ public interface Tile extends Cloneable {
     public ImageIcon getTile();
 
     public void setSize(int size);
+
+    public Object getTile2();
    
 }

@@ -6,7 +6,7 @@ public class GameMonitor implements GameObserver, Serializable {
 
 	private int start = 1;
 	@Override
-	public void updateGame(int[][] field, GameStateAndDirection update) 
+	public void notify(int[][] field, GameStateAndDirection update) 
 	{
 				
 		/*

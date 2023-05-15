@@ -1,4 +1,4 @@
-package framework;
+package application;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -8,12 +8,12 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import application.GameManager;
+import framework.GameObserver;
+import framework.GameStateAndDirection;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+
 
 public class GameSound implements GameObserver {
 
@@ -56,9 +56,8 @@ public class GameSound implements GameObserver {
 
     private Clip getClip(String effect) {
 
-        URL url = getClass().getResource("/audio/" + effect + ".wav");
+        URL url = ClassLoader.getSystemResource("audio/" + effect + ".wav");
         AudioInputStream audio;
-
         try {
             audio = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
@@ -82,7 +81,7 @@ public class GameSound implements GameObserver {
     }
 
     @Override
-    public void updateGame(int[][] board, GameStateAndDirection update) {
+    public void notify(int[][] board, GameStateAndDirection update) {
 
         if (prevBoard == null)
             prevBoard = new int[board.length][board[0].length];

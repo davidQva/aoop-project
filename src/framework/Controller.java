@@ -25,12 +25,9 @@ public class Controller implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {      
-
-        GameStateAndDirection input = inputController.move();       
-        
-        model.input(input);       
-
+    public void actionPerformed(ActionEvent e) {
+        GameStateAndDirection direction = inputController.move();
+        model.input(direction);       
     }
 
 }

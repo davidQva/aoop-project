@@ -29,6 +29,11 @@ public class SokobanTile implements Tile {
     @Override
     public void setSize(int size) {
         this.size = size;
+    }
+
+    @Override
+    public Object getTile2() {
+        return this.tile;
     }   
     
 }

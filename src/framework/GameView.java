@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameView extends JPanel implements GameObserver {
@@ -16,8 +17,18 @@ public class GameView extends JPanel implements GameObserver {
     private int tileSize;
 
     @Override
-    public void updateGame(int[][] board, GameStateAndDirection direction) {
+    public void notify(int[][] board, GameStateAndDirection direction) {
         paintBoard(board);
+        
+        if(direction == GameStateAndDirection.GAME_OVER)         
+        JOptionPane.showMessageDialog(this, "Game Over", game.getClass()+" Game", JOptionPane.INFORMATION_MESSAGE);
+        if(direction == GameStateAndDirection.GAME_OVER){
+        if(JOptionPane.showConfirmDialog(this, "Do you want to play again?", game.getClass()+" Game", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            System.out.println("bajsnisse");
+        else
+            System.exit(0);
+        }
+
     }
 
     public GameView(AbstractTileModel game, int tileSize) {

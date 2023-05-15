@@ -1,45 +1,13 @@
 package application;
-
-import javax.sound.sampled.*;
-
 import java.awt.Point;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class GameManager {
-    private int level;
-    private boolean isGameOver;
-    // Other game-related variables
+public class GameManager {   
 
-    public GameManager() {
-    	level = 1;
-        isGameOver = false; 
-        // Other initialization logic
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public boolean isGameOver() {
-        return isGameOver;
-    }
-
-    public void checkGameState() {
-        // Implement the logic to check the game state
-        // For example, check if the player has completed all levels or if the game is over
-        if (level == 10) {
-            System.out.println("Congratulations! You've completed all levels!");
-            // Set the game over flag
-            isGameOver = true;
-        }
-    }
-
+    //not used right now
     public void scanLevel(int[][] level, ArrayList ponterArr){
 
        
@@ -52,8 +20,6 @@ public class GameManager {
                 }
             }
         }
-
-
     }
     
     public int[][] fileLevelScan(String filePath, ArrayList pointArr, int col, int row) 
@@ -80,7 +46,7 @@ public class GameManager {
 					if(num == 3) {
 						Point point = new Point(roww,coll);
 						pointArr.add(point);
-					}
+					}                   
 					roww++;
 				}
 					roww = 0;
