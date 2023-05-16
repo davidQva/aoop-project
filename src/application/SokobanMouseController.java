@@ -3,9 +3,7 @@ package application;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.SwingUtilities;
-
 import framework.Controller;
 import framework.GameStateAndDirection;
 import framework.InputController;

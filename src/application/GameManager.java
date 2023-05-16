@@ -3,9 +3,11 @@ import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameManager {   
+
+public class GameManager implements Serializable {   
 
     //not used right now
     public void scanLevel(int[][] level, ArrayList ponterArr){

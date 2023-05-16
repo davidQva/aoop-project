@@ -2,11 +2,12 @@ package application;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import framework.Controller;
 import framework.GameStateAndDirection;
 import framework.InputController;
 
-public class KeyboardController implements InputController, KeyListener {
+public class KeyboardController implements InputController, KeyListener{
 
     GameStateAndDirection direction;
     private Controller controller;
@@ -38,7 +39,11 @@ public class KeyboardController implements InputController, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
             this.direction = GameStateAndDirection.RIGHT;
-        }        
+        }
+     
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            this.direction = GameStateAndDirection.GAME_PAUSE;
+        }           
         
         if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S 
         || e.getKeyCode() == KeyEvent.VK_A ||e.getKeyCode() == KeyEvent.VK_D

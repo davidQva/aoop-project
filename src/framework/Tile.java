@@ -1,7 +1,7 @@
 package framework;
 import javax.swing.ImageIcon;
 
-public interface Tile extends Cloneable {
+public interface Tile extends Cloneable{
 
     public Object clone();
 

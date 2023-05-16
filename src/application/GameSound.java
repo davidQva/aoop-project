@@ -14,8 +14,7 @@ import framework.GameStateAndDirection;
 import java.io.IOException;
 import java.net.URL;
 
-
-public class GameSound implements GameObserver {
+public class GameSound implements GameObserver{
 
     int[][] prevBoard;
 

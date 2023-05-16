@@ -2,7 +2,7 @@ package framework;
 
 import java.io.*;
 
-public class GameMonitor implements GameObserver, Serializable { 
+public class GameMonitor implements GameObserver { 
 
 	private int start = 1;
 	@Override

@@ -1,6 +1,9 @@
 package application;
 
 import framework.GameStateAndDirection;
+
+import java.io.Serializable;
+
 import framework.GameObserver;
 
 public class PrintOut implements GameObserver {

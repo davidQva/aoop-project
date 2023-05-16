@@ -1,7 +1,5 @@
 package application;
-
 import javax.swing.ImageIcon;
-
 import framework.Tile;
 
 public class SokobanTile implements Tile {

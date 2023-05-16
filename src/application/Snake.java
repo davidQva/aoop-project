@@ -6,19 +6,16 @@ import framework.GameStateAndDirection;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import javax.swing.*;
 
-public class Snake extends AbstractTileModel implements ActionListener{
+public class Snake extends AbstractTileModel implements ActionListener, Serializable{
 
     private final int BOARD_SIZE;
-    private static final int DELAY = 250;
-    private LinkedList<Point> snake;
-    //private int[][] board;
-    private int snakeLength;    
-    private int snakeX;
-    private int snakeY;
+    private static final int DELAY = 200;
+    private LinkedList<Point> snake; 
     private int appleX;
     private int appleY;
     private Timer timer;
@@ -29,59 +26,59 @@ public class Snake extends AbstractTileModel implements ActionListener{
     public Snake(int col, int row, int size) {
         
         super(col, row, size);
-        this.rows = row;
-        board = new int[col][row];
+        this.rows = row;       
         BOARD_SIZE = col;
         snake = new LinkedList<Point>();
-        snake.add(new Point(row/2, size/2));
+        snake.add(new Point(row/2, col/2));
         x = new int[BOARD_SIZE];
         y = new int[BOARD_SIZE];
-        update = GameStateAndDirection.RIGHT;
-        snakeX = col / 2;
-        snakeY = row / 2;
+        super.setGameStatus(GameStateAndDirection.RIGHT);
+        
         appleX = (int) (Math.random() * BOARD_SIZE);
-        appleY = (int) (Math.random() * BOARD_SIZE);
-        timer = new Timer(DELAY, this);
+        appleY = (int) (Math.random() * BOARD_SIZE);     
+
+        timer = new Timer(DELAY,this);
         timer.start();
 
     }
-   /*  
-    @Override
-    public void actionPerformed(ActionEvent e) 
-    {	
-        update();
-       // input(gameStarted);
-    }
 
- */ 
    @Override
     public void input(GameStateAndDirection direction) {
 
-        if(direction == GameStateAndDirection.UP && this.update != GameStateAndDirection.DOWN)
-            this.update = GameStateAndDirection.UP;
-        if(direction == GameStateAndDirection.DOWN && this.update != GameStateAndDirection.UP)
-            this.update = GameStateAndDirection.DOWN;
-        if(direction == GameStateAndDirection.LEFT && this.update != GameStateAndDirection.RIGHT)
-            this.update = GameStateAndDirection.LEFT;
-        if(direction == GameStateAndDirection.RIGHT && this.update != GameStateAndDirection.LEFT)
-            this.update = GameStateAndDirection.RIGHT;     
-       
+        if(direction == GameStateAndDirection.UP && super.getUpdate() != GameStateAndDirection.DOWN)
+            super.setUpdate(GameStateAndDirection.UP);
+        if(direction == GameStateAndDirection.DOWN && super.getUpdate() != GameStateAndDirection.UP)
+            super.setUpdate(GameStateAndDirection.DOWN);
+        if(direction == GameStateAndDirection.LEFT && super.getUpdate() != GameStateAndDirection.RIGHT)
+            super.setUpdate(GameStateAndDirection.LEFT);
+        if(direction == GameStateAndDirection.RIGHT && super.getUpdate() != GameStateAndDirection.LEFT)
+            super.setUpdate(GameStateAndDirection.RIGHT);
+        if(direction == GameStateAndDirection.GAME_PAUSE) {
+            if(timer.isRunning()){
+                timer.stop();
+                super.setGameStatus(direction);
+                notifyAllObservers();
+            } else
+                timer.start();
+           // direction = GameStateAndDirection.GAME_PAUSE;
+        }        
+            
     }
 
-    public void update() {
+    public void update(){
 
         Point head = snake.getFirst();
 
         int snakeX = head.x;
         int snakeY = head.y;
 
-        if (update == GameStateAndDirection.LEFT) {
+        if (getUpdate() == GameStateAndDirection.LEFT) {
             snakeX--;
-        } else if (update == GameStateAndDirection.RIGHT) {
+        } else if (getUpdate() == GameStateAndDirection.RIGHT) {
             snakeX++;
-        } else if (update == GameStateAndDirection.UP) {
+        } else if (getUpdate() == GameStateAndDirection.UP) {
             snakeY--;
-        } else if (update == GameStateAndDirection.DOWN) {
+        } else if (getUpdate() == GameStateAndDirection.DOWN) {
             snakeY++;
         }
 
@@ -108,23 +105,27 @@ public class Snake extends AbstractTileModel implements ActionListener{
 
  
         for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                board[i][j] = 0;
+            for (int j = 0; j < BOARD_SIZE; j++) {               
+                super.setValue(i,j,0);
             }
         }
 
         for (Point body : snake) {
-            board[body.y][body.x] = 1;
+
+            if (body == snake.getFirst()) {
+                super.setValue(body.y,body.x,3);
+                continue;
+            }
+            super.setValue(body.y,body.x, 1);
         }
-
-        board[appleY][appleX] = 2;
-
+        super.setValue(appleY, appleX, 2);        
+      
         notifyAllObservers();
     }
 
     public void gameOver() {
         timer.stop();
-        update = GameStateAndDirection.GAME_OVER;
+        super.setUpdate(GameStateAndDirection.GAME_OVER);
         notifyAllObservers();
         resetGame();
     }
@@ -132,38 +133,13 @@ public class Snake extends AbstractTileModel implements ActionListener{
     public void resetGame() {
         snake = new LinkedList<Point>();
         snake.add(new Point(rows/2, rows/2));
-        update = GameStateAndDirection.RIGHT;
-        snakeX = BOARD_SIZE / 2;
-        snakeY = BOARD_SIZE / 2;
+        super.setUpdate(GameStateAndDirection.RIGHT); 
         appleX = (int) (Math.random() * BOARD_SIZE);
         appleY = (int) (Math.random() * BOARD_SIZE);
-        board = new int[BOARD_SIZE][BOARD_SIZE];
+        super.resetBoard();       
         timer.start();
     }
-
-    @Override
-    public void moveUp() {   
-           // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveDown'");   
-    }
-
-    @Override
-    public void moveDown() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveDown'");
-    }
-
-    @Override
-    public void moveLeft() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveLeft'");
-    }
-
-    @Override
-    public void moveRight() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveRight'");
-    }
+   
     @Override
     public void actionPerformed(ActionEvent e) {
         update();

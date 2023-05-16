@@ -1,14 +1,12 @@
 package framework;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class Controller implements ActionListener {
 
 
     private AbstractTileModel model;
-    private GameView view;
+    private GameView view;//use this to get the JPanel?
     private InputController inputController;   
     
     public Controller(AbstractTileModel model, GameView view) {

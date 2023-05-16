@@ -1,30 +1,35 @@
 package application;
 
+import framework.AbstractTileModel;
+import framework.GameMonitor;
+
 public class GameSokobanTest {
     
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception  {
         
-        Sokoban newGame = new Sokoban(13, 13, 50);      
+        AbstractTileModel newGame = new Sokoban(13, 13, 50);      
          
         KeyboardController snakeController = new KeyboardController(newGame.getController());
         newGame.getController().setController(snakeController);
         newGame.getFrame().addKeyListener(snakeController);
-  
+ /* 
          SokobanMouseController snakeController2 = new SokobanMouseController(newGame.getController());
         newGame.getFrame().addMouseListener(snakeController2);
         snakeController2.setGame(newGame);
-        newGame.getController().setController(snakeController2); 
+        newGame.getController().setController(snakeController2);  */
 
  
         SokobanTile prototype = new SokobanTile();
-        newGame.addTile(99, prototype);
+        newGame.addTile(null, prototype);
 
        
          GameSound sound = new GameSound();
         newGame.attach(sound); 
-        
-      /*   GameMonitor monitor = new GameMonitor();
-        newGame.attach(monitor);     */ 
+    /*     
+        GameMonitor monitor = new GameMonitor();
+        newGame.attach(monitor);      
+
+       */
 
         newGame.addTile("crate", 0, prototype);
         newGame.addTile("cratemarked", 1, prototype);
