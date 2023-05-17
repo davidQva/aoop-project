@@ -100,11 +100,14 @@ public class GameSound implements GameObserver {
      * Toggle the mute state of the sound effects.
      */
     public void Mute() {
+
         this.effectMute = !effectMute;
+
         for (Clip clip : effects) {
             BooleanControl muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
             muteControl.setValue(effectMute);
         }
+
         if (!effectMute) {
             playEffect(MOVE);
         }
@@ -145,7 +148,9 @@ public class GameSound implements GameObserver {
         else if (update == GameStateAndDirection.LEFT)
             playEffect(MOVE);
         else if (update == GameStateAndDirection.RIGHT)
-            playEffect(MOVE);
+            playEffect(MOVE);     
+        else if (update == GameStateAndDirection.MUTE)
+            Mute();
     }
 
 }

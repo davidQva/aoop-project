@@ -33,8 +33,8 @@ public class GameView extends JPanel implements GameObserver {
 
     /**
      * notify is called by the model when the model has changed. The method
-     * repaints the game board. The method also checks if the game is paused and
-     * asks the user if he wants to save/load the game.
+     * repaints the game board with the new state. The method also checks if the game is paused and
+     * when paused check if the user wants to save/load the game.
      */
     @Override
     public void notify(int[][] board, GameStateAndDirection newState) {
@@ -43,8 +43,11 @@ public class GameView extends JPanel implements GameObserver {
 
         if (newState == GameStateAndDirection.GAME_PAUSE) {
 
-            int option = JOptionPane.showConfirmDialog(this, "Do you want to save the game?", game.getClass() + " Game",
-                    JOptionPane.YES_NO_CANCEL_OPTION);
+            Object[] options = {"Save Game", "Load Game", "Unpause Game"};              
+
+/* getTiles(6).getTile() */
+            int option = JOptionPane.showOptionDialog(this, "Game is paused", game.getClass().getSimpleName(),
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
 
             switch (option) {
                 case JOptionPane.YES_OPTION:

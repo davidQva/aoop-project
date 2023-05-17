@@ -61,10 +61,12 @@ public class KeyboardController implements InputController, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_P) {
             this.input = GameStateAndDirection.GAME_PAUSE;
         }
+        if (e.getKeyCode() == KeyEvent.VK_M) {
+            this.input = GameStateAndDirection.MUTE;}
 
-        if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
+         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
                 || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_D
-                || e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_P)
+                || e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_M)
             controller.actionPerformed(null);
     }
 

@@ -17,7 +17,7 @@ public class MouseController implements InputController, MouseListener {
 
     private Controller model;
     private GameStateAndDirection input;
-    private SokobanModel game;
+    private SokobanGame game;
 
     /**
      * Constructor for the MouseController.
@@ -44,7 +44,7 @@ public class MouseController implements InputController, MouseListener {
      * 
      * @param game
      */
-    public void setGame(SokobanModel game) {
+    public void setGame(SokobanGame game) {
         this.game = game;
     }
 

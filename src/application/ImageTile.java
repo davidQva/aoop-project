@@ -3,8 +3,8 @@ import javax.swing.ImageIcon;
 import framework.Tile;
 
 /**
- * SokobanTile implements the interface Tile.
- * SokobanTile is responsible for creating the tiles for the game.
+ * ImageTile implements the interface Tile.
+ * Tile is the prototype for the tiles in the game.
  */
 public class ImageTile implements Tile {
 

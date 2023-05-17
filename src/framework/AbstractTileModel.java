@@ -176,6 +176,15 @@ public abstract class AbstractTileModel {
     }
 
     /**
+     * Sets the board.
+     * 
+     * @param board ,the board to be set.
+     */
+    public void setBoard(int[][] board) {
+        this.board = board;
+    }
+
+    /**
      * Adds a tile to the game.
      * 
      * @param key  ,the key to be used in the hashmap and to asoociate the tile with

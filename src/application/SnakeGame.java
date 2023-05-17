@@ -7,39 +7,42 @@ import java.awt.event.*;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class SnakeModel extends AbstractTileModel implements ActionListener {
+public class SnakeGame extends AbstractTileModel implements ActionListener {
 
     private static final int DELAY = 200;
     private LinkedList<Point> snake;
     private int appleX;
     private int appleY;
     private Timer timer;
-    final int x[];
-    final int y[];
+    GameStateAndDirection lastDir;   
     int row;
     int col;
 
-    public SnakeModel(int col, int row, int size) {
+    public SnakeGame(int col, int row, int size) {
 
         super(col, row, size);
         this.row = row;
-        this.col = col;      
+        this.col = col;
         snake = new LinkedList<Point>();
-        snake.add(new Point(5 / 2, this.row / 2));
-        x = new int[this.col];
-        y = new int[this.row];
+        snake.add(new Point(row / 2, col / 2));
         setUpdate(GameStateAndDirection.RIGHT);
-
-        appleX = (int) (Math.random() * this.col);
-        appleY = (int) (Math.random() * this.row);
+        appleX = (int) (Math.random() * this.row);
+        appleY = (int) (Math.random() * this.col);
 
         timer = new Timer(DELAY, this);
         timer.start();
 
     }
 
+    /**
+     * input method for the game controller to call when a key is pressed
+     * sets the newInput to the direction of the key pressed by the user
+     */
     @Override
     public void input(GameStateAndDirection newInput) {
+
+        if(newInput != GameStateAndDirection.GAME_PAUSE)
+        lastDir = newInput;
 
         if (newInput == GameStateAndDirection.UP && super.getUpdate() != GameStateAndDirection.DOWN)
             super.setUpdate(GameStateAndDirection.UP);
@@ -49,18 +52,56 @@ public class SnakeModel extends AbstractTileModel implements ActionListener {
             super.setUpdate(GameStateAndDirection.LEFT);
         if (newInput == GameStateAndDirection.RIGHT && super.getUpdate() != GameStateAndDirection.LEFT)
             super.setUpdate(GameStateAndDirection.RIGHT);
+
+
         if (newInput == GameStateAndDirection.GAME_PAUSE) {
             if (timer.isRunning()) {
                 timer.stop();
-                super.setGameStatus(newInput);
+                setUpdate(GameStateAndDirection.GAME_PAUSE);
                 notifyAllObservers();
-            } else
+                if(getUpdate() != GameStateAndDirection.GAME_LOAD){
+                setUpdate(lastDir);
                 timer.start();
-            // direction = GameStateAndDirection.GAME_PAUSE;
+                }            
+            }
         }
+
+        if (getUpdate() == GameStateAndDirection.GAME_LOAD) {
+            
+            snake.clear();
+
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                   
+                    if(board[i][j] == 3)
+                     snake.addFirst(new Point(j,i));
+
+                    if(board[i][j] == 1)
+                     snake.addLast(new Point(j,i));
+
+                    if(board[i][j] == 2){
+                        appleX = j;
+                        appleY = i;
+                    }                  
+                }
+            }            
+         
+            setUpdate(lastDir);
+            timer.start();
+            
+        }
+
 
     }
 
+    /**
+     * updates the game state and direction of the game model and notifies the
+     * observers
+     * 
+     * @param e is the action event that triggers the update, in this case the timer
+     *          reads the direction from the update variable and moves the snake
+     *          accordingly
+     */
     public void update() {
 
         Point head = snake.getFirst();
@@ -85,15 +126,15 @@ public class SnakeModel extends AbstractTileModel implements ActionListener {
             }
         }
 
-        if (snakeX < 0 || snakeX >= col || snakeY < 0 || snakeY >= row) {
+        if (snakeX < 0 || snakeX >= row || snakeY < 0 || snakeY >= col) {
             gameOver();
             return;
         }
 
         if (snakeX == appleX && snakeY == appleY) {
             snake.addFirst(new Point(snakeX, snakeY));
-            appleX = (int) (Math.random() * col);
-            appleY = (int) (Math.random() * row);
+            appleX = (int) (Math.random() * row);
+            appleY = (int) (Math.random() * col);
         } else {
             snake.removeLast();
             snake.addFirst(new Point(snakeX, snakeY));
@@ -115,9 +156,13 @@ public class SnakeModel extends AbstractTileModel implements ActionListener {
         }
         super.setValue(appleY, appleX, 2);
 
-        notifyAllObservers();
+      notifyAllObservers();
     }
 
+    /**
+     * resets the game state and direction of the game model and notifies the
+     * observers
+     */
     public void gameOver() {
         timer.stop();
         setGameStatus(GameStateAndDirection.GAME_OVER);
@@ -125,17 +170,25 @@ public class SnakeModel extends AbstractTileModel implements ActionListener {
         resetGame();
     }
 
+    /**
+     * resets the game state and direction of the game
+     */
     public void resetGame() {
         snake = new LinkedList<Point>();
-        snake.add(new Point(col / 2, row / 2));
+        snake.add(new Point(row / 2, col / 2));
         setGameStatus(GameStateAndDirection.GAME_START);
         setUpdate(GameStateAndDirection.RIGHT);
-        appleX = (int) (Math.random() * col);
-        appleY = (int) (Math.random() * row);
+        appleX = (int) (Math.random() * row);
+        appleY = (int) (Math.random() * col);
         // super.resetBoard();
         timer.start();
     }
 
+    /**
+     * trigger by the timer, calls the update method
+     * 
+     * @param e is the action event that triggers the update, in this case the timer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         update();

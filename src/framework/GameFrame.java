@@ -16,6 +16,7 @@ public class GameFrame extends JFrame {
      */
     public GameFrame(GameView board, AbstractTileModel game) {
 
+        this.setTitle(game.getClass().getSimpleName());
         JPanel panel = new JPanel();
         panel.setSize(getPreferredSize());
         panel.add(board);

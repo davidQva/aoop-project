@@ -8,9 +8,9 @@ public class GameTest {
          * choose the game you want to play
          */
 
-      //  SokobanModel game = new SokobanModel(13, 13, 50);
+      //  SokobanGame game = new SokobanGame(13, 13, 50);
 
-     SnakeModel game = new SnakeModel(20, 20, 30);
+      SnakeGame game = new SnakeGame(50, 20, 30);
 
         /**
          * add prototype tile to the game
@@ -22,13 +22,13 @@ public class GameTest {
          * add tiles to the game that you want to use
          */
         switch (game.getClass().getSimpleName()) {
-            case "SnakeModel":
+            case "SnakeGame":
                 game.addTile(1, prototype, "snekkbod");
                 game.addTile(2, prototype, "snekkapple");
                 game.addTile(0, prototype, "blank");
                 game.addTile(3, prototype, "snekkhead");
                 break;
-            case "SokobanModel":
+            case "SokobanGame":
                 game.addTile(0, prototype, "crate");
                 game.addTile(1, prototype, "cratemarked");
                 game.addTile(2, prototype, "blank");
@@ -45,11 +45,12 @@ public class GameTest {
         /**
          * add observers to the game
          */
-        GameSound sound = new GameSound();
-        game.attach(sound);
+       // GameSound sound = new GameSound();
+       // game.attach(sound);
 
-       /*  PrintOut printOut = new PrintOut();
+    /*     PrintOut printOut = new PrintOut();
         game.attach(printOut); */
+
 
         /**
          * add controller to the game

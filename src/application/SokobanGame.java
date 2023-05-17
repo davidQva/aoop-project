@@ -6,7 +6,7 @@ import framework.AbstractTileModel;
 import framework.GameMapLoader;
 import framework.GameStateAndDirection;
 
-public class SokobanModel extends AbstractTileModel {
+public class SokobanGame extends AbstractTileModel {
 
     private static final int BOX = 0;
     private static final int BOX_ON_TARGET = 1;
@@ -22,7 +22,7 @@ public class SokobanModel extends AbstractTileModel {
 
     GameMapLoader gameManager;
 
-    public SokobanModel(int col, int row, int size) {
+    public SokobanGame(int col, int row, int size) {
 
         super(col, row, size);
         if (getLevel() == null)
@@ -32,11 +32,17 @@ public class SokobanModel extends AbstractTileModel {
 
     }
 
+    /**
+     * update method is called when all the new states are set to the model
+     * updates the model and notifies all observers
+     * 
+     * @param update
+     */
     public void update(GameStateAndDirection update) {
 
         checkWin();
         checkGameOver();
-        findPlayerAndUpdatePos();
+        updatePlayerPos();
         super.setUpdate(update);
         notifyAllObservers();
 
@@ -67,7 +73,7 @@ public class SokobanModel extends AbstractTileModel {
         board = gameManager.fileLevelScan("resources/" + level + ".txt", targetPositions,
                 board.length, board[0].length);
 
-        findPlayerAndUpdatePos();
+        updatePlayerPos();
         super.setGameStarted(GameStateAndDirection.GAME_START);
         update(GameStateAndDirection.GAME_START);
 
@@ -76,7 +82,9 @@ public class SokobanModel extends AbstractTileModel {
     /**
      * input() is called from the controller when a key is pressed
      * 
-     * @param newInput
+     * @param newInput the key that was pressed by the user, can only be UP, DOWN,
+     *                 LEFT, RIGHT
+     *                 or GAME_PAUSE with the current implementation
      */
     @Override
     public void input(GameStateAndDirection newInput) {
@@ -88,7 +96,7 @@ public class SokobanModel extends AbstractTileModel {
          */
         if (getUpdate() == GameStateAndDirection.GAME_LOAD) {
             targetPositions = new ArrayList<Point>();
-            findPlayerAndUpdatePos();
+            updatePlayerPos();
             gameManager.fileLevelScan("resources/" + getLevel() + ".txt", targetPositions,
                     board.length, board[0].length);
         }
@@ -110,6 +118,8 @@ public class SokobanModel extends AbstractTileModel {
                 super.setGameStarted(GameStateAndDirection.GAME_PAUSE);
                 update(GameStateAndDirection.GAME_PAUSE);
                 break;
+            case MUTE:
+                update(GameStateAndDirection.MUTE);
             default:
                 break;
 
@@ -117,7 +127,10 @@ public class SokobanModel extends AbstractTileModel {
 
     }
 
-    public void findPlayerAndUpdatePos() {
+    /**
+     * finds the player and updates playerX and playerY
+     */
+    public void updatePlayerPos() {
 
         int playerX = -1;
         int playerY = -1;
@@ -136,15 +149,22 @@ public class SokobanModel extends AbstractTileModel {
         this.playerY = playerY;
     }
 
+    /**
+     * Checks if the player can move from the current position to the destination
+     * position.
+     */
     public void moveUp() {
 
-        // findPlayerAndUpdatePos();
-
+        /**
+         * The destination coordinates
+         */
         int destX = playerX;
         int destY = playerY - 1;
 
-        // Check if the player can move right
-        if (isValidMove(playerX, playerY, destX, destY)) {
+        /**
+         * Check if the player can move up
+         */
+        if (isValidPlayerMove(playerX, playerY, destX, destY)) {
             // Move the player to the destination coordinates
             int playerValue = getBoard()[playerY][playerX];
             int destTile = getBoard()[destY][destX];
@@ -159,10 +179,16 @@ public class SokobanModel extends AbstractTileModel {
                 moveBox(boxX, boxY, boxDestX, boxDestY);
             }
 
-            playerStepOverTargetRepaint(destX, destY, playerValue, destTile);
+            /**
+             * Move the player to the destination coordinates
+             */
+            movePlayer(destX, destY, playerValue, destTile);
 
         }
 
+        /**
+         * Update the model
+         */
         update(GameStateAndDirection.UP);
 
     }
@@ -175,7 +201,7 @@ public class SokobanModel extends AbstractTileModel {
         int destY = playerY;
 
         // Check if the player can move right
-        if (isValidMove(playerX, playerY, destX, destY)) {
+        if (isValidPlayerMove(playerX, playerY, destX, destY)) {
             // Move the player to the destination coordinates
             int playerValue = getBoard()[playerY][playerX];
             int destTile = getBoard()[destY][destX];
@@ -189,7 +215,7 @@ public class SokobanModel extends AbstractTileModel {
 
                 moveBox(boxX, boxY, boxDestX, boxDestY);
             }
-            playerStepOverTargetRepaint(destX, destY, playerValue, destTile);
+            movePlayer(destX, destY, playerValue, destTile);
 
         }
 
@@ -205,7 +231,7 @@ public class SokobanModel extends AbstractTileModel {
         int destY = playerY;
 
         // Check if the move is valid
-        if (isValidMove(playerX, playerY, destX, destY)) {
+        if (isValidPlayerMove(playerX, playerY, destX, destY)) {
             // Move the player to the destination coordinates
             int playerValue = getBoard()[playerY][playerX];
             int destTile = getBoard()[destY][destX];
@@ -220,7 +246,7 @@ public class SokobanModel extends AbstractTileModel {
                 moveBox(boxX, boxY, boxDestX, boxDestY);
             }
 
-            playerStepOverTargetRepaint(destX, destY, playerValue, destTile);
+            movePlayer(destX, destY, playerValue, destTile);
 
         }
 
@@ -237,7 +263,7 @@ public class SokobanModel extends AbstractTileModel {
         int destY = playerY + 1;
 
         // Check if the move is valid
-        if (isValidMove(playerX, playerY, destX, destY)) {
+        if (isValidPlayerMove(playerX, playerY, destX, destY)) {
             // Move the player to the destination coordinates
             int playerValue = getBoard()[playerY][playerX];
             int destTile = getBoard()[destY][destX];
@@ -252,7 +278,7 @@ public class SokobanModel extends AbstractTileModel {
                 moveBox(boxX, boxY, boxDestX, boxDestY);
             }
 
-            playerStepOverTargetRepaint(destX, destY, playerValue, destTile);
+            movePlayer(destX, destY, playerValue, destTile);
 
             // Update the getBoard() state and repaint
             update(GameStateAndDirection.DOWN);
@@ -260,7 +286,16 @@ public class SokobanModel extends AbstractTileModel {
         }
     }
 
-    private void playerStepOverTargetRepaint(int destX, int destY, int playerValue, int destTile) {
+    /**
+     * set the new position of the player and box,
+     * and the old position of the player and box.
+     * 
+     * @param destX
+     * @param destY
+     * @param playerValue
+     * @param destTile
+     */
+    private void movePlayer(int destX, int destY, int playerValue, int destTile) {
 
         switch (destTile) {
             case TARGET:
@@ -293,7 +328,16 @@ public class SokobanModel extends AbstractTileModel {
 
     }
 
-    private boolean isValidMove(int startX, int startY, int destX, int destY) {
+    /**
+     * checks if the move is valid for the player
+     * 
+     * @param startX current x position
+     * @param startY current y position
+     * @param destX  destination x position
+     * @param destY  destination y position
+     * @return true if the move is valid, false otherwise
+     */
+    private boolean isValidPlayerMove(int startX, int startY, int destX, int destY) {
 
         // Check if the destination coordinates are within the getBoard() bounds
         if (destX < 0 || destX >= getBoard().length || destY < 0 || destY >= getBoard()[0].length) {
@@ -325,6 +369,14 @@ public class SokobanModel extends AbstractTileModel {
         return true;
     }
 
+    /**
+     * moves the box to the destination coordinates
+     * 
+     * @param boxX  current x position
+     * @param boxY  current y position
+     * @param destX destination x position
+     * @param destY destination y position
+     */
     public void moveBox(int boxX, int boxY, int destX, int destY) {
 
         // Check if the destination is a valid position for the box
@@ -338,9 +390,18 @@ public class SokobanModel extends AbstractTileModel {
         }
     }
 
+    /**
+     * checks if the move is valid for the box
+     * 
+     * @param boxX  current x position
+     * @param boxY  current y position
+     * @param destX destination x position
+     * @param destY destination y position
+     * @return true if the move is valid, false otherwise
+     */
     private boolean isValidBoxMove(int boxX, int boxY, int destX, int destY) {
 
-        findPlayerAndUpdatePos();
+        updatePlayerPos();
 
         // Check if the destination coordinates are within the getBoard() bounds
         int distanceX = Math.abs(boxX - playerX);
@@ -356,6 +417,13 @@ public class SokobanModel extends AbstractTileModel {
         return false;
     }
 
+    /**
+     * checks if the box is stuck in a corner or with other boxes
+     * 
+     * @param col box x position
+     * @param row box y position
+     * @return
+     */
     private boolean isBoxStuck(int col, int row) {
         // Check if the box is stuck in a corner
         boolean up = (row > 0
@@ -370,6 +438,7 @@ public class SokobanModel extends AbstractTileModel {
         boolean right = (col < getBoard()[row].length - 1
                 && (getBoard()[row][col + 1] == WALL) || (getBoard()[row][col + 1] == BOX)
                 || (getBoard()[row][col + 1] == BOX_ON_TARGET));
+
         // Check if the box is on a target, target can be in a corner
         for (Point target : targetPositions) {
             int targetX = target.x;
@@ -389,6 +458,11 @@ public class SokobanModel extends AbstractTileModel {
 
     }
 
+    /**
+     * checks if the game is over
+     * 
+     * @return true if the game is over, false otherwise
+     */
     public boolean checkGameOver() {
 
         int countBoxes = 0;
@@ -403,7 +477,6 @@ public class SokobanModel extends AbstractTileModel {
                         stuckBoxes++;
                         if (countBoxes == stuckBoxes)
                             super.setGameStatus(GameStateAndDirection.GAME_OVER);
-                        // notifyAllObservers();
                         return true;
                     }
                 }
@@ -412,6 +485,11 @@ public class SokobanModel extends AbstractTileModel {
         return false;
     }
 
+    /**
+     * checks if the game is won by checking if all boxes are on targets
+     * 
+     * @return true if the game is won, false otherwise
+     */
     public boolean checkWin() {
 
         for (Point target : targetPositions) {
@@ -437,18 +515,36 @@ public class SokobanModel extends AbstractTileModel {
         return true;
     }
 
+    /**
+     * returns the player positionX
+     */
     public int getPlayerPositionX() {
         return playerX;
     }
 
+    /**
+     * returns the player positionY
+     * 
+     * @return
+     */
     public int getPlayerPositionY() {
         return playerY;
     }
 
+    /**
+     * sets the player positionX
+     * 
+     * @param x
+     */
     public void setPlayerPositionX(int x) {
         playerX = x;
     }
 
+    /**
+     * sets the player positionY
+     * 
+     * @param y
+     */
     public void setPlayerPositionY(int y) {
         playerY = y;
     }
