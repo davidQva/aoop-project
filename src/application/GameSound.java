@@ -14,7 +14,12 @@ import framework.GameStateAndDirection;
 import java.io.IOException;
 import java.net.URL;
 
-public class GameSound implements GameObserver{
+/**
+ * GameSound is an observer for the game. It plays sound effects when the game
+ * is updated. The class uses the observer pattern to get updates from the game.
+ * This GameSound class is only for the Sokoban sound effects.
+ */
+public class GameSound implements GameObserver {
 
     int[][] prevBoard;
 
@@ -25,16 +30,29 @@ public class GameSound implements GameObserver{
     private Clip[] effects;
     private boolean effectMute = false;
 
+    /**
+     * Constructor for the GameSound class. Loads the sound effects and sets the
+     * volume.
+     */
     public GameSound() {
         loadEffects();
         updateEffectVolume();
     }
 
+    /**
+     * Plays the sound effect.
+     * 
+     * @param effect is the sound effect to be played.
+     */
     public void playEffect(int effect) {
         effects[effect].setMicrosecondPosition(0);
         effects[effect].start();
     }
 
+    /**
+     * Set the array of sound effects.
+     * effects is the array of sound effects provided.
+     */
     private void loadEffects() {
         String[] effects = { "move2", "pling" };
         this.effects = new Clip[effects.length];
@@ -43,6 +61,9 @@ public class GameSound implements GameObserver{
         }
     }
 
+    /**
+     * Set the volume of the sound effects.
+     */
     private void updateEffectVolume() {
 
         for (Clip clip : effects) {
@@ -53,6 +74,12 @@ public class GameSound implements GameObserver{
         }
     }
 
+    /**
+     * Get the sound effect from the audio file.
+     * 
+     * @param effect is the sound effect to be played.
+     * @return clip is the sound effect that is fetched from the audio folder.
+     */
     private Clip getClip(String effect) {
 
         URL url = ClassLoader.getSystemResource("audio/" + effect + ".wav");
@@ -68,6 +95,10 @@ public class GameSound implements GameObserver{
         return null;
     }
 
+    /**
+     * mutes the sound effects.
+     * Toggle the mute state of the sound effects.
+     */
     public void Mute() {
         this.effectMute = !effectMute;
         for (Clip clip : effects) {
@@ -79,9 +110,18 @@ public class GameSound implements GameObserver{
         }
     }
 
+    /**
+     * notify triggers the sound effects when the game is updated.
+     * 
+     * @param board is the game board and the state of the game.
+     */
     @Override
     public void notify(int[][] board, GameStateAndDirection update) {
 
+        /**
+         * prevBoard is used to check if a box is moved onto a target. If so, the sound
+         * effect is played.
+         */
         if (prevBoard == null)
             prevBoard = new int[board.length][board[0].length];
 
@@ -95,6 +135,9 @@ public class GameSound implements GameObserver{
             }
         }
 
+        /**
+         * Plays the sound effect when the player moves.
+         */
         if (update == GameStateAndDirection.UP)
             playEffect(MOVE);
         else if (update == GameStateAndDirection.DOWN)

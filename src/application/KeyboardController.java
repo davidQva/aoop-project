@@ -7,52 +7,76 @@ import framework.Controller;
 import framework.GameStateAndDirection;
 import framework.InputController;
 
-public class KeyboardController implements InputController, KeyListener{
+/**
+ * KeyboardController implements the interface InputController and KeyListener.
+ * KeyboardController is responsible for getting input from the user and passing
+ * it to the Controller.
+ */
+public class KeyboardController implements InputController, KeyListener {
 
-    GameStateAndDirection direction;
+    GameStateAndDirection input;
     private Controller controller;
 
+    /**
+     * Constructor for the KeyboardController.
+     * 
+     * @param model is the controller for the game.
+     */
     public KeyboardController(Controller model) {
         this.controller = model;
     }
 
+    /**
+     * Returns the input from the user.
+     * 
+     * @return direction
+     */
     @Override
-    public GameStateAndDirection move() {
-        return this.direction;
+    public GameStateAndDirection input() {
+        return this.input;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {       
-    }
-
+    /**
+     * when a key is pressed the input is set to the corresponding direction.
+     * The input is then passed to the controller.
+     * 
+     * @param e is the event from the user.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            this.direction = GameStateAndDirection.UP;
+            this.input = GameStateAndDirection.UP;
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            this.direction = GameStateAndDirection.DOWN;
+            this.input = GameStateAndDirection.DOWN;
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            this.direction = GameStateAndDirection.LEFT;
+            this.input = GameStateAndDirection.LEFT;
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            this.direction = GameStateAndDirection.RIGHT;
+            this.input = GameStateAndDirection.RIGHT;
         }
-     
+
         if (e.getKeyCode() == KeyEvent.VK_P) {
-            this.direction = GameStateAndDirection.GAME_PAUSE;
-        }           
-        
-        if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S 
-        || e.getKeyCode() == KeyEvent.VK_A ||e.getKeyCode() == KeyEvent.VK_D
-        || e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_P)
-        controller.actionPerformed(null);
-    }        
+            this.input = GameStateAndDirection.GAME_PAUSE;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
+                || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_D
+                || e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_P)
+            controller.actionPerformed(null);
+    }
+
+    /**
+     * not used
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
     @Override
-    public void keyReleased(KeyEvent e) {        
+    public void keyTyped(KeyEvent e) {
     }
-    
+
 }

@@ -1,22 +1,32 @@
 package framework;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GameFrame extends JFrame {      
+/**
+ * GameFrame is a JFrame that contains a JPanel with the game board.
+ */
+public class GameFrame extends JFrame {
 
-    public GameFrame(GameView board,AbstractTileModel game ) {
-        
+    /**
+     * Constructor for GameFrame
+     * 
+     * @param board is the JPanel that contains the game board.
+     * @param game  is the model for the game.
+     */
+    public GameFrame(GameView board, AbstractTileModel game) {
+
         JPanel panel = new JPanel();
         panel.setSize(getPreferredSize());
-        panel.add(board);        
+        panel.add(board);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.add(panel);    
+        this.add(panel);
         this.setSize(board.getPreferredSize());
-        this.pack();   
+        this.pack();
         this.setVisible(true);
 
-    }    
+    }
 
 }

@@ -1,11 +1,12 @@
 package application;
 
 import framework.GameStateAndDirection;
-
-import java.io.Serializable;
-
 import framework.GameObserver;
 
+/**
+ * PrintOut is an observer that prints the game board and the state of the game
+ * to the console.
+ */
 public class PrintOut implements GameObserver {
 
     @Override

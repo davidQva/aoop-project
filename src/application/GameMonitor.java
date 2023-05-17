@@ -1,6 +1,9 @@
-package framework;
+package application;
 
 import java.io.*;
+
+import framework.GameObserver;
+import framework.GameStateAndDirection;
 
 public class GameMonitor implements GameObserver { 
 

@@ -1,15 +1,12 @@
 package application;
-import java.awt.Point;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import framework.AbstractTileModel;
+import framework.GameMapLoader;
 import framework.GameStateAndDirection;
 
-public class Sokoban extends AbstractTileModel implements Serializable {
+public class SokobanModel extends AbstractTileModel {
 
     private static final int BOX = 0;
     private static final int BOX_ON_TARGET = 1;
@@ -19,29 +16,23 @@ public class Sokoban extends AbstractTileModel implements Serializable {
     private static final int PLAYER = 5;
     private static final int PLAYER_ON_TARGET = 6;
     private ArrayList<Point> targetPositions;
-   // private String level;
-
-   // private int[][] board;
 
     private int playerX;
     private int playerY;
 
-    private int col, row;
+    GameMapLoader gameManager;
 
-    GameManager gameManager;
+    public SokobanModel(int col, int row, int size) {
 
-    public Sokoban(int col, int row, int size) {
-
-          super(col, row, size);
-          addGame(this);
-         if (getLevel() == null)
+        super(col, row, size);
+        if (getLevel() == null)
             setLevel("map01");
-        gameManager = new GameManager();
+        gameManager = new GameMapLoader();
         initializeBoard(getLevel());
-    } 
 
+    }
 
-    public void update(GameStateAndDirection update) { 
+    public void update(GameStateAndDirection update) {
 
         checkWin();
         checkGameOver();
@@ -49,44 +40,60 @@ public class Sokoban extends AbstractTileModel implements Serializable {
         super.setUpdate(update);
         notifyAllObservers();
 
-        if (super.getGameStatus() == GameStateAndDirection.GAME_WON && super.getGameStarted() == GameStateAndDirection.GAME_START) {
+        if (super.getGameStatus() == GameStateAndDirection.GAME_WON
+                && super.getGameStarted() == GameStateAndDirection.GAME_START) {
             super.setGameStatus(GameStateAndDirection.GAME_START);
-            initializeBoard(getLevel());         
-        } else if (super.getGameStatus() == GameStateAndDirection.GAME_OVER && super.getGameStarted() == GameStateAndDirection.GAME_START) {
+            initializeBoard(getLevel());
+        } else if (super.getGameStatus() == GameStateAndDirection.GAME_OVER
+                && super.getGameStarted() == GameStateAndDirection.GAME_START) {
             super.setGameStatus(GameStateAndDirection.GAME_START);
             initializeBoard(getLevel());
         } else if (super.getGameStatus() == GameStateAndDirection.GAME_UNPAUSE) {
-           super.setGameStatus(GameStateAndDirection.GAME_START);
-            super.setGameStarted(GameStateAndDirection.GAME_START);                 
-        }     
+            super.setGameStatus(GameStateAndDirection.GAME_START);
+            super.setGameStarted(GameStateAndDirection.GAME_START);
+        }
     }
 
+    /**
+     * Initialize the board with the given level
+     * updates targetPositions with the target positions, and
+     * finds the player and updates playerX and playerY
+     * 
+     * @param level
+     */
     private void initializeBoard(String level) {
 
-        // finds the target positions and adds them to the targetPositions arraylist
-        // gameManager.scanLevel(getBoard(), targetPositions);
         targetPositions = new ArrayList<Point>();
-        this.board = gameManager.fileLevelScan("resources/" + level + ".txt", targetPositions,
-        board.length, board[0].length);
-        setBoard(board);
-       // this.getBoard() = getBoard();
+        board = gameManager.fileLevelScan("resources/" + level + ".txt", targetPositions,
+                board.length, board[0].length);
+
         findPlayerAndUpdatePos();
         super.setGameStarted(GameStateAndDirection.GAME_START);
         update(GameStateAndDirection.GAME_START);
 
     }
 
+    /**
+     * input() is called from the controller when a key is pressed
+     * 
+     * @param newInput
+     */
     @Override
-    public void input(GameStateAndDirection currentInput) {
+    public void input(GameStateAndDirection newInput) {
 
-        if(getUpdate() == GameStateAndDirection.GAME_LOAD){
+        /*
+         * If the game is loaded, we need to initialize the board
+         * with the given level to find the player and update the
+         * target positions.
+         */
+        if (getUpdate() == GameStateAndDirection.GAME_LOAD) {
             targetPositions = new ArrayList<Point>();
-          findPlayerAndUpdatePos();
-          gameManager.fileLevelScan("resources/" + getLevel() + ".txt", targetPositions,
-          board.length, board[0].length);          
-        }     
-        
-        switch (currentInput) {
+            findPlayerAndUpdatePos();
+            gameManager.fileLevelScan("resources/" + getLevel() + ".txt", targetPositions,
+                    board.length, board[0].length);
+        }
+
+        switch (newInput) {
             case UP:
                 moveUp();
                 break;
@@ -99,7 +106,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
             case RIGHT:
                 moveRight();
                 break;
-            case GAME_PAUSE:            
+            case GAME_PAUSE:
                 super.setGameStarted(GameStateAndDirection.GAME_PAUSE);
                 update(GameStateAndDirection.GAME_PAUSE);
                 break;
@@ -131,7 +138,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
 
     public void moveUp() {
 
-       // findPlayerAndUpdatePos();
+        // findPlayerAndUpdatePos();
 
         int destX = playerX;
         int destY = playerY - 1;
@@ -162,7 +169,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
 
     public void moveRight() {
 
-       // findPlayerAndUpdatePos();
+        // findPlayerAndUpdatePos();
 
         int destX = playerX + 1;
         int destY = playerY;
@@ -192,7 +199,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
 
     public void moveLeft() {
 
-     //   findPlayerAndUpdatePos();
+        // findPlayerAndUpdatePos();
 
         int destX = playerX - 1;
         int destY = playerY;
@@ -223,7 +230,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
 
     public void moveDown() {
 
-      //  findPlayerAndUpdatePos();
+        // findPlayerAndUpdatePos();
 
         // Calculate the destination coordinates
         int destX = playerX;
@@ -253,8 +260,7 @@ public class Sokoban extends AbstractTileModel implements Serializable {
         }
     }
 
-    private void playerStepOverTargetRepaint(int destX, int destY, int playerValue, int destTile) {        
-        
+    private void playerStepOverTargetRepaint(int destX, int destY, int playerValue, int destTile) {
 
         switch (destTile) {
             case TARGET:
@@ -353,13 +359,17 @@ public class Sokoban extends AbstractTileModel implements Serializable {
     private boolean isBoxStuck(int col, int row) {
         // Check if the box is stuck in a corner
         boolean up = (row > 0
-                && (getBoard()[row - 1][col] == WALL) || (getBoard()[row - 1][col] == BOX) || (getBoard()[row -1][col] == BOX_ON_TARGET));
+                && (getBoard()[row - 1][col] == WALL) || (getBoard()[row - 1][col] == BOX)
+                || (getBoard()[row - 1][col] == BOX_ON_TARGET));
         boolean down = (row < getBoard().length - 1
-                && (getBoard()[row + 1][col] == WALL) || (getBoard()[row + 1][col] == BOX) || (getBoard()[row + 1][col] == BOX_ON_TARGET));
+                && (getBoard()[row + 1][col] == WALL) || (getBoard()[row + 1][col] == BOX)
+                || (getBoard()[row + 1][col] == BOX_ON_TARGET));
         boolean left = (col > 0
-                && (getBoard()[row][col - 1] == WALL) || (getBoard()[row][col -1] == BOX) || (getBoard()[row][col -1] == BOX_ON_TARGET));
+                && (getBoard()[row][col - 1] == WALL) || (getBoard()[row][col - 1] == BOX)
+                || (getBoard()[row][col - 1] == BOX_ON_TARGET));
         boolean right = (col < getBoard()[row].length - 1
-                && (getBoard()[row][col + 1] == WALL) || (getBoard()[row][col +1] == BOX) || (getBoard()[row][col +1] == BOX_ON_TARGET));
+                && (getBoard()[row][col + 1] == WALL) || (getBoard()[row][col + 1] == BOX)
+                || (getBoard()[row][col + 1] == BOX_ON_TARGET));
         // Check if the box is on a target, target can be in a corner
         for (Point target : targetPositions) {
             int targetX = target.x;
@@ -391,14 +401,14 @@ public class Sokoban extends AbstractTileModel implements Serializable {
                     // Check if the box is stuck (surrounded by walls or other boxes)
                     if (isBoxStuck(col, row)) {
                         stuckBoxes++;
-                        if(countBoxes == stuckBoxes)
-                        super.setGameStatus(GameStateAndDirection.GAME_OVER);                                               
-                        //notifyAllObservers();
+                        if (countBoxes == stuckBoxes)
+                            super.setGameStatus(GameStateAndDirection.GAME_OVER);
+                        // notifyAllObservers();
                         return true;
                     }
                 }
             }
-        }       
+        }
         return false;
     }
 
@@ -442,5 +452,5 @@ public class Sokoban extends AbstractTileModel implements Serializable {
     public void setPlayerPositionY(int y) {
         playerY = y;
     }
-   
+
 }
