@@ -1,10 +1,7 @@
 package application;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import framework.*;
-import application.*;
 import org.junit.Test;
 
 public class SokobanTest {
@@ -132,7 +129,7 @@ public class SokobanTest {
 	 * */
 	public boolean checkgamoverandclip(SokobanGame soko) 
 	{
-		if (soko.checkGameOver() == true 
+		if (soko.checkGameOver()
 				|| soko.getPlayerPositionX() <= 0 || soko.getPlayerPositionX() >= soko.getBoard()[0].length-1
 				|| soko.getPlayerPositionY() <= 0 || soko.getPlayerPositionY() >= soko.getBoard()[0].length-1);
 		return true;
@@ -157,28 +154,28 @@ public class SokobanTest {
 			
 			if(random >= 0 && random <= 0.249) {
 					soko.input(StateAndDirection.UP);
-					if(soko.checkWin() == true) 
+					if(soko.checkWin()) 
 						won++;
 					if(checkgamoverandclip(soko));
 						lost++;
 			}
 			if(random >= 0.250 && random <= 0.499) {
 					soko.input(StateAndDirection.DOWN);
-					if(soko.checkWin() == true) 
+					if(soko.checkWin()) 
 						won++;
 					if(checkgamoverandclip(soko));
 						lost++;
 			}
 			if(random >= 0.500 && random <= 0.749) {
 					soko.input(StateAndDirection.LEFT);
-					if(soko.checkWin() == true) 
+					if(soko.checkWin()) 
 						won++;
 					if(checkgamoverandclip(soko));
 						lost++;
 			}
 			if(random >= 0.750 && random < 1) {
 					soko.input(StateAndDirection.RIGHT);
-					if(soko.checkWin() == true) 
+					if(soko.checkWin()) 
 						won++;
 					if(checkgamoverandclip(soko));
 						lost++;
