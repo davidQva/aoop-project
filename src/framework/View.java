@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * The board is painted with JLabels so it can be updated easily be
  * modifyed with different tile images and shapes.
  */
-public class GameView extends JPanel implements GameObserver {
+public class View extends JPanel implements Observer {
     
     private AbstractTileModel game;
     private TileRegistry tileRegistry;
@@ -28,7 +28,7 @@ public class GameView extends JPanel implements GameObserver {
      * @param game     the model that contains the game board size
      * @param tileSize the size of the tiles
      */
-    public GameView(AbstractTileModel game, int tileSize) {
+    public View(AbstractTileModel game, int tileSize) {
     
         this.tileSize = tileSize;
         this.game = game;
@@ -56,11 +56,11 @@ public class GameView extends JPanel implements GameObserver {
      * when paused check if the user wants to save/load the game.
      */
     @Override
-    public void notify(int[][] board, GameStateAndDirection newState) {
+    public void notify(int[][] board, StateAndDirection newState) {
         
         paintBoard(board);
         
-        if (newState == GameStateAndDirection.GAME_PAUSE) {
+        if (newState == StateAndDirection.GAME_PAUSE) {
             
             Object[] options = {"Save Game", "Load Game", "Unpause Game"};              
             
@@ -71,14 +71,14 @@ public class GameView extends JPanel implements GameObserver {
             switch (option) {
                 case JOptionPane.YES_OPTION:
                     game.saveGameState(askForFileName());
-                    game.setGameStatus(GameStateAndDirection.GAME_UNPAUSE);
+                    game.setGameStatus(StateAndDirection.GAME_UNPAUSE);
                     break;
                 case JOptionPane.NO_OPTION:
                     game.loadGameState(askForLoadFileName());
-                    game.setGameStatus(GameStateAndDirection.GAME_UNPAUSE);
+                    game.setGameStatus(StateAndDirection.GAME_UNPAUSE);
                     break;
                 case JOptionPane.CANCEL_OPTION:
-                    game.setGameStatus(GameStateAndDirection.GAME_UNPAUSE);
+                    game.setGameStatus(StateAndDirection.GAME_UNPAUSE);
                     return;
             }
 

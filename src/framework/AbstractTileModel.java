@@ -38,13 +38,13 @@ public abstract class AbstractTileModel {
 
     private int[][] board;
     private Controller controller;
-    private GameFrame frame;
-    private GameView view;
-    private GameStateAndDirection gameStatus;
-    private GameStateAndDirection gameStarted;
-    private GameStateAndDirection update;
-    private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
-    private GameState gameState;
+    private Frame frame;
+    private View view;
+    private StateAndDirection gameStatus;
+    private StateAndDirection gameStarted;
+    private StateAndDirection update;
+    private ArrayList<Observer> observers = new ArrayList<Observer>();
+    private GameSaved gameState;
     private String level;
 
     /**
@@ -58,9 +58,9 @@ public abstract class AbstractTileModel {
      */
     public AbstractTileModel(int col, int row, int size) {
         board = new int[col][row];
-        gameState = new GameState(board);
-        view = new GameView(this, size);
-        frame = new GameFrame(view, this);
+        gameState = new GameSaved(board);
+        view = new View(this, size);
+        frame = new Frame(view, this);
         controller = new Controller(this);
         attach(view);
     }
@@ -70,7 +70,7 @@ public abstract class AbstractTileModel {
      * 
      * @param observer must use the GameObserver interface.
      */
-    public void attach(GameObserver observer) {
+    public void attach(Observer observer) {
         this.observers.add(observer);
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractTileModel {
      * method.
      */
     public void notifyAllObservers() {
-        for (GameObserver observer : observers) {
+        for (Observer observer : observers) {
             observer.notify(board, update);
         }
     }
@@ -93,7 +93,7 @@ public abstract class AbstractTileModel {
      *         UP, DOWN, LEFT, RIGHT, GAME_OVER, GAME_WON, GAME_PAUSE, GAME_RESUME,
      *         GAME_START, GAME_SAVE, GAME_LOAD.
      */
-    public GameStateAndDirection getUpdate() {
+    public StateAndDirection getUpdate() {
         return update;
     }
 
@@ -103,7 +103,7 @@ public abstract class AbstractTileModel {
      * 
      * @param update
      */
-    public void setUpdate(GameStateAndDirection update) {
+    public void setUpdate(StateAndDirection update) {
         this.update = update;
     }
 
@@ -112,7 +112,7 @@ public abstract class AbstractTileModel {
      * 
      * @return
      */
-    public GameStateAndDirection getGameStatus() {
+    public StateAndDirection getGameStatus() {
         return gameStatus;
     }
 
@@ -124,7 +124,7 @@ public abstract class AbstractTileModel {
      *                   GAME_OVER, GAME_WON, GAME_PAUSE, GAME_RESUME, GAME_START,
      *                   GAME_SAVE, GAME_LOAD.
      */
-    public void setGameStatus(GameStateAndDirection gameStatus) {
+    public void setGameStatus(StateAndDirection gameStatus) {
         this.gameStatus = gameStatus;
     }
 
@@ -135,7 +135,7 @@ public abstract class AbstractTileModel {
      * @param gameStarted , gameStarted should only be set to GAME_START or
      *                    GAME_PAUSE.
      */
-    public void setGameStarted(GameStateAndDirection gameStarted) {
+    public void setGameStarted(StateAndDirection gameStarted) {
         this.gameStarted = gameStarted;
     }
 
@@ -145,7 +145,7 @@ public abstract class AbstractTileModel {
      * 
      * @return
      */
-    public GameStateAndDirection getGameStarted() {
+    public StateAndDirection getGameStarted() {
         return gameStarted;
     }
 
@@ -265,12 +265,12 @@ public abstract class AbstractTileModel {
      * @throws IOException if the file is not found.
      */
     public void loadGameState(String fileName) {
-        GameState temp = null;
+        GameSaved temp = null;
         String className = this.getClass().getSimpleName();
         try {
             FileInputStream fileIn = new FileInputStream(className + "." + fileName);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            temp = (GameState) objectIn.readObject();
+            temp = (GameSaved) objectIn.readObject();
             objectIn.close();
             fileIn.close();
             System.out.println("Gamestate loaded from " + fileName);
@@ -295,7 +295,7 @@ public abstract class AbstractTileModel {
         }
 
         level = (String) temp.getLevel();
-        update = GameStateAndDirection.GAME_LOAD;            
+        update = StateAndDirection.GAME_LOAD;            
         notifyAllObservers();
     }
 
@@ -354,7 +354,7 @@ public abstract class AbstractTileModel {
      * 
      * @return frame
      */
-    public GameFrame getFrame() {
+    public Frame getFrame() {
         return frame;
     }
 
@@ -370,7 +370,7 @@ public abstract class AbstractTileModel {
      * 
      * @return view
      */
-    public GameView getView() {
+    public View getView() {
         return view;
     }
 
@@ -388,7 +388,7 @@ public abstract class AbstractTileModel {
      *                 input() is used to update the gamestate. Controller calls
      *                 input() when a key is pressed.
      */
-    public abstract void input(GameStateAndDirection newInput);
+    public abstract void input(StateAndDirection newInput);
 
 
 }

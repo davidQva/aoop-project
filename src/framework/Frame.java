@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 /**
  * GameFrame is a JFrame that contains a JPanel with the game board.
  */
-public class GameFrame extends JFrame {
+public class Frame extends JFrame {
 
     /**
      * Constructor for GameFrame
@@ -14,7 +14,7 @@ public class GameFrame extends JFrame {
      * @param board is the JPanel that contains the game board.
      * @param game  is the model for the game.
      */
-    public GameFrame(GameView board, AbstractTileModel game) {
+    public Frame(View board, AbstractTileModel game) {
 
         this.setTitle(game.getClass().getSimpleName());
         JPanel panel = new JPanel();

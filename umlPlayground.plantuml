@@ -1,52 +1,41 @@
-@startuml
-package GameUI {
-    interface Game {
-        +void start()
-        +void pause()
-        +void resume()
-        +void stop()
-        +void setScore(int score)
-    }
-    interface TileGame {
-        +void moveUp()
-        +void moveDown()
-        +void moveLeft()
-        +void moveRight()
-    }
-    abstract class AbstractGame implements Game, TileGame {
-        -int score
-        -boolean isPaused
-        -boolean isStopped
-        +void drawBoard()
-    }
-    class SokobanGame extends AbstractGame {
-        +void moveUp()
-        +void moveDown()
-        +void moveLeft()
-        +void moveRight()
-        +void drawBoard()
-    }
-    class SnakeGame extends AbstractGame {
-        +void moveUp()
-        +void moveDown()
-        +void moveLeft()
-        +void moveRight()
-        +void drawBoard()
-    }
-    class GameFactory {
-        +static Game createSokobanGame()
-        +static Game createSnakeGame()
-    }
-    class GameUIFramework {
-        +void startGame(Game game)
-        +void pauseGame(Game game)
-        +void resumeGame(Game game)
-        +void stopGame(Game game)
-        +void setScore(Game game, int score)
-        +void drawBoard(Game game)
-    }
-    class GameUIApplication {
-        +static void main(String[] args)
-    }
+@startuml umlPlayground
+
+class GameModel extends AbstractModel {
+    -model: Model   
+    +start(): void
+    +setGameState(gameState: Object): void
+
 }
+
+
+abstract class AbstractModel {
+    +setGameState(gameState: Object): void
+    +getGameState(): Object
+}
+
+class View {
+    +displayGameBoard(): void
+    +displayGameOver(): void
+}
+
+class Controller {
+    -model: Model
+    -view: View
+    +handleInput(input: Object): void
+}
+
+interface Observer {
+    +notify(): void
+}
+
+interface InputController {
+    +input(): void
+}
+
+AbstractModel <- Controller
+Controller <- View
+View <-- AbstractModel
+AbstractModel ..> Observer
+Controller ..> InputController
+
 @enduml

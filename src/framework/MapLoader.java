@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 /**
  * GameMapLoader is a class that loads the level from a mapX.txt file and returns the level as a 2D array.
- * Also adds the points to the pointArr.
+ * Also adds the points to the pointArr. This is used in SokobanGame.
  */
-public class GameMapLoader{   
+public class MapLoader{   
 
     /**
 	 * Scans the level and adds the cratemarked points to the pointArr.

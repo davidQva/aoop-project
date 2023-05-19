@@ -2,10 +2,10 @@ package application;
 
 import java.io.*;
 
-import framework.GameObserver;
-import framework.GameStateAndDirection;
+import framework.Observer;
+import framework.StateAndDirection;
 
-public class GameMonitor implements GameObserver {
+public class GameMonitor implements Observer {
 
 	private int start = 1;
 
@@ -17,7 +17,7 @@ public class GameMonitor implements GameObserver {
 	 * @param update is the current gamestate.
 	 */
 	@Override
-	public void notify(int[][] field, GameStateAndDirection update) {
+	public void notify(int[][] field, StateAndDirection update) {
 
 		/*
 		 * Checks the state of the game.
@@ -68,7 +68,7 @@ public class GameMonitor implements GameObserver {
 	 * @param field  is the current gamestate
 	 * @param update is the current gamestate and direction
 	 */
-	public void logPrinter(int[][] field, GameStateAndDirection update)
+	public void logPrinter(int[][] field, StateAndDirection update)
 
 	{
 		int[][] numbers = field;

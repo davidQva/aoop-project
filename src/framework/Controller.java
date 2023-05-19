@@ -51,8 +51,8 @@ public class Controller implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameStateAndDirection direction = inputController.input();
-        model.input(direction);
+        StateAndDirection newInput = inputController.input();
+        model.input(newInput);
     }
 
 }

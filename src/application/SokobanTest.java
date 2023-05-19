@@ -1,7 +1,7 @@
 package application;
 
 import framework.*;
-import framework.GameStateAndDirection;
+import framework.StateAndDirection;
 
 import static org.junit.Assert.*;
 import org.junit.Test;

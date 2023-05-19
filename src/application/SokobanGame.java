@@ -3,8 +3,8 @@ package application;
 import java.awt.Point;
 import java.util.ArrayList;
 import framework.AbstractTileModel;
-import framework.GameMapLoader;
-import framework.GameStateAndDirection;
+import framework.MapLoader;
+import framework.StateAndDirection;
 
 public class SokobanGame extends AbstractTileModel {
 
@@ -20,14 +20,14 @@ public class SokobanGame extends AbstractTileModel {
     private int playerX;
     private int playerY;
 
-    GameMapLoader gameManager;
+    MapLoader gameManager;
 
     public SokobanGame(int col, int row, int size) {      
 
         super(col, row, size);
         if (getLevel() == null)
             setLevel("map01");
-        gameManager = new GameMapLoader();
+        gameManager = new MapLoader();
         initializeBoard(getLevel());
 
     }
@@ -38,7 +38,7 @@ public class SokobanGame extends AbstractTileModel {
      * 
      * @param update
      */
-    public void update(GameStateAndDirection update) {
+    public void update(StateAndDirection update) {
 
         checkWin();
         checkGameOver();
@@ -46,17 +46,17 @@ public class SokobanGame extends AbstractTileModel {
         super.setUpdate(update);
         notifyAllObservers();
 
-        if (super.getGameStatus() == GameStateAndDirection.GAME_WON
-                && super.getGameStarted() == GameStateAndDirection.GAME_START) {
-            super.setGameStatus(GameStateAndDirection.GAME_START);
+        if (super.getGameStatus() == StateAndDirection.GAME_WON
+                && super.getGameStarted() == StateAndDirection.GAME_START) {
+            super.setGameStatus(StateAndDirection.GAME_START);
             initializeBoard(getLevel());
-        } else if (super.getGameStatus() == GameStateAndDirection.GAME_OVER
-                && super.getGameStarted() == GameStateAndDirection.GAME_START) {
-            super.setGameStatus(GameStateAndDirection.GAME_START);
+        } else if (super.getGameStatus() == StateAndDirection.GAME_OVER
+                && super.getGameStarted() == StateAndDirection.GAME_START) {
+            super.setGameStatus(StateAndDirection.GAME_START);
             initializeBoard(getLevel());
-        } else if (super.getGameStatus() == GameStateAndDirection.GAME_UNPAUSE) {
-            super.setGameStatus(GameStateAndDirection.GAME_START);
-            super.setGameStarted(GameStateAndDirection.GAME_START);
+        } else if (super.getGameStatus() == StateAndDirection.GAME_UNPAUSE) {
+            super.setGameStatus(StateAndDirection.GAME_START);
+            super.setGameStarted(StateAndDirection.GAME_START);
         }
     }
 
@@ -74,8 +74,8 @@ public class SokobanGame extends AbstractTileModel {
                 getBoard().length, getBoard()[0].length));
 
         updatePlayerPos();
-        super.setGameStarted(GameStateAndDirection.GAME_START);
-        update(GameStateAndDirection.GAME_START);
+        super.setGameStarted(StateAndDirection.GAME_START);
+        update(StateAndDirection.GAME_START);
 
     }
 
@@ -87,14 +87,14 @@ public class SokobanGame extends AbstractTileModel {
      *                 or GAME_PAUSE with the current implementation
      */
     @Override
-    public void input(GameStateAndDirection newInput) {
+    public void input(StateAndDirection newInput) {
 
         /*
          * If the game is loaded, we need to initialize the board
          * with the given level to find the player and update the
          * target positions.
          */
-        if (getUpdate() == GameStateAndDirection.GAME_LOAD) {
+        if (getUpdate() == StateAndDirection.GAME_LOAD) {
             targetPositions = new ArrayList<Point>();
             updatePlayerPos();
             gameManager.fileLevelScan("resources/" + getLevel() + ".txt", targetPositions,
@@ -115,11 +115,11 @@ public class SokobanGame extends AbstractTileModel {
                 moveRight();
                 break;
             case GAME_PAUSE:
-                super.setGameStarted(GameStateAndDirection.GAME_PAUSE);
-                update(GameStateAndDirection.GAME_PAUSE);
+                super.setGameStarted(StateAndDirection.GAME_PAUSE);
+                update(StateAndDirection.GAME_PAUSE);
                 break;
             case MUTE:
-                update(GameStateAndDirection.MUTE);
+                update(StateAndDirection.MUTE);
             default:
                 break;
 
@@ -189,7 +189,7 @@ public class SokobanGame extends AbstractTileModel {
         /**
          * Update the model
          */
-        update(GameStateAndDirection.UP);
+        update(StateAndDirection.UP);
 
     }
 
@@ -219,7 +219,7 @@ public class SokobanGame extends AbstractTileModel {
 
         }
 
-        update(GameStateAndDirection.RIGHT);
+        update(StateAndDirection.RIGHT);
 
     }
 
@@ -250,7 +250,7 @@ public class SokobanGame extends AbstractTileModel {
 
         }
 
-        update(GameStateAndDirection.LEFT);
+        update(StateAndDirection.LEFT);
 
     }
 
@@ -281,7 +281,7 @@ public class SokobanGame extends AbstractTileModel {
             movePlayer(destX, destY, playerValue, destTile);
 
             // Update the getBoard() state and repaint
-            update(GameStateAndDirection.DOWN);
+            update(StateAndDirection.DOWN);
 
         }
     }
@@ -476,7 +476,7 @@ public class SokobanGame extends AbstractTileModel {
                     if (isBoxStuck(col, row)) {
                         stuckBoxes++;
                         if (countBoxes == stuckBoxes)
-                            super.setGameStatus(GameStateAndDirection.GAME_OVER);
+                            super.setGameStatus(StateAndDirection.GAME_OVER);
                         return true;
                     }
                 }
@@ -511,7 +511,7 @@ public class SokobanGame extends AbstractTileModel {
             default:
                 break;
         }
-        super.setGameStatus(GameStateAndDirection.GAME_WON);
+        super.setGameStatus(StateAndDirection.GAME_WON);
         return true;
     }
 

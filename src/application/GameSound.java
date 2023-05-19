@@ -8,8 +8,8 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import framework.GameObserver;
-import framework.GameStateAndDirection;
+import framework.Observer;
+import framework.StateAndDirection;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +19,7 @@ import java.net.URL;
  * is updated. The class uses the observer pattern to get updates from the game.
  * This GameSound class is only for the Sokoban sound effects.
  */
-public class GameSound implements GameObserver {
+public class GameSound implements Observer {
 
     int[][] prevBoard;
 
@@ -119,7 +119,7 @@ public class GameSound implements GameObserver {
      * @param board is the game board and the state of the game.
      */
     @Override
-    public void notify(int[][] board, GameStateAndDirection update) {
+    public void notify(int[][] board, StateAndDirection update) {
 
         /**
          * prevBoard is used to check if a box is moved onto a target. If so, the sound
@@ -141,15 +141,15 @@ public class GameSound implements GameObserver {
         /**
          * Plays the sound effect when the player moves.
          */
-        if (update == GameStateAndDirection.UP)
+        if (update == StateAndDirection.UP)
             playEffect(MOVE);
-        else if (update == GameStateAndDirection.DOWN)
+        else if (update == StateAndDirection.DOWN)
             playEffect(MOVE);
-        else if (update == GameStateAndDirection.LEFT)
+        else if (update == StateAndDirection.LEFT)
             playEffect(MOVE);
-        else if (update == GameStateAndDirection.RIGHT)
+        else if (update == StateAndDirection.RIGHT)
             playEffect(MOVE);     
-        else if (update == GameStateAndDirection.MUTE)
+        else if (update == StateAndDirection.MUTE)
             Mute();
     }
 

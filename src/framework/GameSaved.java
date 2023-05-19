@@ -9,7 +9,7 @@ import java.io.Serializable;
  * The class is Serializable so that it can be saved to a file.
  * And uses the memento pattern to save the state of the game.
  */
-public class GameState implements Serializable {
+public class GameSaved implements Serializable {
 
     int[][] board;
     String score;
@@ -20,7 +20,7 @@ public class GameState implements Serializable {
      * 
      * @param board is the board matrix.
      */
-    public GameState(int[][] board) {
+    public GameSaved(int[][] board) {
         this.board = board;
     }
 

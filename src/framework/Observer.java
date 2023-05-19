@@ -5,8 +5,8 @@ package framework;
  * observer of changes in the game. The passed parameters are the game board and
  * the state of the game.
  */
-public interface GameObserver {
+public interface Observer {
 
-    public void notify(int[][] board, GameStateAndDirection stateUpdate);
+    public void notify(int[][] board, StateAndDirection stateUpdate);
 
 }

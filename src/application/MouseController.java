@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
 import framework.Controller;
-import framework.GameStateAndDirection;
+import framework.StateAndDirection;
 import framework.InputController;
 
 /**
@@ -16,7 +16,7 @@ import framework.InputController;
 public class MouseController implements InputController, MouseListener {
 
     private Controller model;
-    private GameStateAndDirection input;
+    private StateAndDirection input;
     private SokobanGame game;
 
     /**
@@ -34,7 +34,7 @@ public class MouseController implements InputController, MouseListener {
      * @return direction
      */
     @Override
-    public GameStateAndDirection input() {
+    public StateAndDirection input() {
         return this.input;
     }
 
@@ -78,15 +78,15 @@ public class MouseController implements InputController, MouseListener {
        // String s = "";
 
         if (x == divRow + 1 && y == divCol) {
-            this.input = GameStateAndDirection.LEFT;
+            this.input = StateAndDirection.LEFT;
         } else if (x == divRow - 1 && y == divCol) {
-            this.input = GameStateAndDirection.RIGHT;
+            this.input = StateAndDirection.RIGHT;
         } else if (x == divRow && y == divCol + 1) {
-            this.input = GameStateAndDirection.UP;
+            this.input = StateAndDirection.UP;
         } else if (x == divRow && y == divCol - 1) {
-            this.input = GameStateAndDirection.DOWN;
+            this.input = StateAndDirection.DOWN;
         } else {
-            this.input = GameStateAndDirection.NONE;
+            this.input = StateAndDirection.NONE;
         }
 
       //  System.out.println("X: " + divRow + " Y: " + divCol + " Direction: " + this.input);

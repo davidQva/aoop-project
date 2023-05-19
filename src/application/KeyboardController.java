@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import framework.Controller;
-import framework.GameStateAndDirection;
+import framework.StateAndDirection;
 import framework.InputController;
 
 /**
@@ -14,7 +14,7 @@ import framework.InputController;
  */
 public class KeyboardController implements InputController, KeyListener {
 
-    GameStateAndDirection input;
+    StateAndDirection input;
     private Controller controller;
 
     /**
@@ -32,7 +32,7 @@ public class KeyboardController implements InputController, KeyListener {
      * @return direction
      */
     @Override
-    public GameStateAndDirection input() {
+    public StateAndDirection input() {
         return this.input;
     }
 
@@ -46,23 +46,23 @@ public class KeyboardController implements InputController, KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            this.input = GameStateAndDirection.UP;
+            this.input = StateAndDirection.UP;
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            this.input = GameStateAndDirection.DOWN;
+            this.input = StateAndDirection.DOWN;
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            this.input = GameStateAndDirection.LEFT;
+            this.input = StateAndDirection.LEFT;
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            this.input = GameStateAndDirection.RIGHT;
+            this.input = StateAndDirection.RIGHT;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_P) {
-            this.input = GameStateAndDirection.GAME_PAUSE;
+            this.input = StateAndDirection.GAME_PAUSE;
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
-            this.input = GameStateAndDirection.MUTE;}
+            this.input = StateAndDirection.MUTE;}
 
          if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
                 || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_D
