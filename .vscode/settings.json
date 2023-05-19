@@ -1,10 +1,25 @@
 {
     "java.project.sourcePaths": [
         "src",
-        "resources"
+        "resources",
+        "test-lib"
     ],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
-}
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "test-lib/hamcrest-core-1.3.jar",
+            "test-lib/junit-4.13.2.jar"
+        ],
+        "exclude": [
+            "lib/junit-4.13.2.jar",
+            "lib/hamcrest-core-1.3.jar"
+        ]
+    },
+    
+    "java.test.config": {
+        "classpath": "resources"
+      }
+        
+               
+        }

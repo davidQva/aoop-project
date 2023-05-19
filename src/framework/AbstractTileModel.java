@@ -36,7 +36,7 @@ import javax.swing.ImageIcon;
  */
 public abstract class AbstractTileModel {
 
-    protected int[][] board;
+    private int[][] board;
     private Controller controller;
     private GameFrame frame;
     private GameView view;
@@ -181,7 +181,10 @@ public abstract class AbstractTileModel {
      * @param board ,the board to be set.
      */
     public void setBoard(int[][] board) {
-        this.board = board;
+        this.board = new int[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            System.arraycopy(board[i], 0, this.board[i], 0, board[0].length);
+        }
     }
 
     /**
@@ -273,9 +276,17 @@ public abstract class AbstractTileModel {
             System.out.println("Gamestate loaded from " + fileName);
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Gamestate not found");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        if (temp == null) {
+            return;
+        } 
+
+        this.board = null;
+        this.board = new int[temp.getBoard().length][temp.getBoard()[0].length];
 
         for (int i = 0; i < temp.getBoard().length; i++) {
             for (int j = 0; j < temp.getBoard()[0].length; j++) {
@@ -284,7 +295,7 @@ public abstract class AbstractTileModel {
         }
 
         level = (String) temp.getLevel();
-        update = GameStateAndDirection.GAME_LOAD;
+        update = GameStateAndDirection.GAME_LOAD;            
         notifyAllObservers();
     }
 
@@ -297,6 +308,17 @@ public abstract class AbstractTileModel {
      */
     public void setValue(int i, int j, int k) {
         board[i][j] = k;
+    }
+
+    /**
+     * Gets the value of the board at position i,j.
+     * 
+     * @param i row
+     * @param j column
+     * @return value
+     */
+    public int getValue(int i, int j) {
+        return board[i][j];
     }
 
     /**

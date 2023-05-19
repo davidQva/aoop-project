@@ -8,9 +8,9 @@ public class GameTest {
          * choose the game you want to play
          */
 
-      //  SokobanGame game = new SokobanGame(13, 13, 50);
+        SokobanGame game = new SokobanGame(13, 13, 50);
 
-      SnakeGame game = new SnakeGame(50, 20, 30);
+       // SnakeGame game = new SnakeGame(10, 10, 30);
 
         /**
          * add prototype tile to the game
@@ -45,8 +45,8 @@ public class GameTest {
         /**
          * add observers to the game
          */
-       // GameSound sound = new GameSound();
-       // game.attach(sound);
+      //  GameSound sound = new GameSound();
+      //  game.attach(sound);
 
     /*     PrintOut printOut = new PrintOut();
         game.attach(printOut); */

@@ -22,7 +22,7 @@ public class SokobanGame extends AbstractTileModel {
 
     GameMapLoader gameManager;
 
-    public SokobanGame(int col, int row, int size) {
+    public SokobanGame(int col, int row, int size) {      
 
         super(col, row, size);
         if (getLevel() == null)
@@ -67,11 +67,11 @@ public class SokobanGame extends AbstractTileModel {
      * 
      * @param level
      */
-    private void initializeBoard(String level) {
+    public void initializeBoard(String level) {
 
         targetPositions = new ArrayList<Point>();
-        board = gameManager.fileLevelScan("resources/" + level + ".txt", targetPositions,
-                board.length, board[0].length);
+        setBoard(gameManager.fileLevelScan("resources/" + level + ".txt", targetPositions,
+                getBoard().length, getBoard()[0].length));
 
         updatePlayerPos();
         super.setGameStarted(GameStateAndDirection.GAME_START);
@@ -98,7 +98,7 @@ public class SokobanGame extends AbstractTileModel {
             targetPositions = new ArrayList<Point>();
             updatePlayerPos();
             gameManager.fileLevelScan("resources/" + getLevel() + ".txt", targetPositions,
-                    board.length, board[0].length);
+                    getBoard().length, getBoard()[0].length);
         }
 
         switch (newInput) {

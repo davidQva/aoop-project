@@ -1,21 +1,32 @@
 package application;
-import framework.AbstractTileModel;
+
+import framework.*;
+import framework.GameStateAndDirection;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 public class SokobanTest {
 
-    @Test
-    public void testSokoban() {
-        AbstractTileModel sokoban = new SokobanGame(4, 4, 10);
-        
-        int[][] board = {
-            {1, 1, 1, 1},
-            {1, 0, 0, 1},
-            {1, 0, 2, 1},
-            {1, 1, 1, 1}
-        };
 
-        sokoban.setBoard(board);        
-        
+    @Test
+    public void testSokoban() {     
+
+        SokobanGame game = new SokobanGame(13, 13, 50);
+/* 
+        for(int i = 0; i < 13; i++) {
+            for(int j = 0; j < 13; j++) {
+
+                if(game.getValue(i,j) == 5) {  
+
+                    assertEquals(game.getPlayerPositionX(), i);
+                    assertEquals(game.getPlayerPositionY(), j);    
+
+                }               
+
+            }
+        } */
     }
     
 }
