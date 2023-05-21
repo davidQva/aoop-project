@@ -43,20 +43,22 @@ public class SokobanGame extends AbstractTileModel {
         checkWin();
         checkGameOver();
         updatePlayerPos();
-        super.setUpdate(update);
+        setUpdate(update);
         notifyAllObservers();
 
         if (super.getGameStatus() == StateAndDirection.GAME_WON
                 && super.getGameStarted() == StateAndDirection.GAME_START) {
             super.setGameStatus(StateAndDirection.GAME_START);
+           System.out.println("You won!");
             initializeBoard(getLevel());
         } else if (super.getGameStatus() == StateAndDirection.GAME_OVER
                 && super.getGameStarted() == StateAndDirection.GAME_START) {
             super.setGameStatus(StateAndDirection.GAME_START);
+            System.out.println("You lost!");
             initializeBoard(getLevel());
         } else if (super.getGameStatus() == StateAndDirection.GAME_UNPAUSE) {
             super.setGameStatus(StateAndDirection.GAME_START);
-            super.setGameStarted(StateAndDirection.GAME_START);
+            super.setGameStarted(StateAndDirection.GAME_START); 
         }
     }
 
@@ -451,7 +453,17 @@ public class SokobanGame extends AbstractTileModel {
         }
 
         if (up && left || up && right || down && left || down && right) {
-            return true;
+
+            if(up && left && getBoard()[row-1][col-1] == WALL || (up && right && getBoard()[row-1][col+1] == WALL ||
+            (down && left && getBoard()[row+1][col-1] == WALL || (down && right && getBoard()[row+1][col+1] == WALL)))){
+                setGameStatus(StateAndDirection.GAME_OVER);                
+            }
+
+          
+
+
+
+            return true;            
         }
 
         return false;
@@ -475,13 +487,13 @@ public class SokobanGame extends AbstractTileModel {
                     // Check if the box is stuck (surrounded by walls or other boxes)
                     if (isBoxStuck(col, row)) {
                         stuckBoxes++;
-                        if (countBoxes == stuckBoxes)
-                            super.setGameStatus(StateAndDirection.GAME_OVER);
-                        return true;
                     }
                 }
             }
         }
+        if (countBoxes == stuckBoxes){
+            super.setGameStatus(StateAndDirection.GAME_OVER);
+        return true;}
         return false;
     }
 
@@ -501,6 +513,7 @@ public class SokobanGame extends AbstractTileModel {
             }
         }
 
+        super.setGameStatus(StateAndDirection.GAME_WON);
         switch (getLevel()) {
             case "map01":
                 setLevel("map02");
@@ -511,7 +524,6 @@ public class SokobanGame extends AbstractTileModel {
             default:
                 break;
         }
-        super.setGameStatus(StateAndDirection.GAME_WON);
         return true;
     }
 

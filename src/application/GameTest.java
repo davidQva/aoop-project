@@ -47,10 +47,10 @@ public class GameTest {
          */
       //  GameSound sound = new GameSound();
       //  game.attach(sound);
-
-    /*     PrintOut printOut = new PrintOut();
-        game.attach(printOut); */
-
+/* 
+        PrintOut printOut = new PrintOut();
+        game.attach(printOut);
+ */
 
         /**
          * add controller to the game

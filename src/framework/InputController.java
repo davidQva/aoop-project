@@ -6,5 +6,9 @@ package framework;
  * The input controller is using the method pattern to implement the input.
  */
 public interface InputController {
+    /**
+     * input method for the game controller to call when a key is pressed
+     * @return
+     */
     public StateAndDirection input();
 }

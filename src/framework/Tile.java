@@ -9,8 +9,16 @@ import javax.swing.ImageIcon;
  */
 public interface Tile extends Cloneable {
 
+    /**
+     * Returns the type of the tile.
+     * @return
+     */
     public Object clone();
 
+    /**
+     * Sets the type of the tile.
+     * @param tile
+     */
     public void setTile(ImageIcon tile);
 
     public ImageIcon getTile();
