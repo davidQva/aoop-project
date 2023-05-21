@@ -40,8 +40,8 @@ public class SokobanGame extends AbstractTileModel {
      */
     public void update(StateAndDirection update) {
 
-        checkWin();
         checkGameOver();
+        checkWin();
         updatePlayerPos();
         setUpdate(update);
         notifyAllObservers();
@@ -454,14 +454,10 @@ public class SokobanGame extends AbstractTileModel {
 
         if (up && left || up && right || down && left || down && right) {
 
-            if(up && left && getBoard()[row-1][col-1] == WALL || (up && right && getBoard()[row-1][col+1] == WALL ||
+             if(up && left && getBoard()[row-1][col-1] == WALL || (up && right && getBoard()[row-1][col+1] == WALL ||
             (down && left && getBoard()[row+1][col-1] == WALL || (down && right && getBoard()[row+1][col+1] == WALL)))){
                 setGameStatus(StateAndDirection.GAME_OVER);                
-            }
-
-          
-
-
+            }     
 
             return true;            
         }
@@ -516,13 +512,13 @@ public class SokobanGame extends AbstractTileModel {
         super.setGameStatus(StateAndDirection.GAME_WON);
         switch (getLevel()) {
             case "map01":
-                setLevel("map02");
-                break;
+            setLevel("map02");
+            break;
             case "map02":
-                setLevel("map03");
-                break;
+            setLevel("map03");
+            break;
             default:
-                break;
+            break;
         }
         return true;
     }

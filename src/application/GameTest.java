@@ -51,6 +51,7 @@ public class GameTest {
         PrintOut printOut = new PrintOut();
         game.attach(printOut);
  */
+        //GameMonitor monitor = new GameMonitor();
 
         /**
          * add controller to the game
