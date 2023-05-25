@@ -3,6 +3,7 @@ package framework;
 import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Image;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -236,10 +237,10 @@ public abstract class AbstractTileModel {
      */
     public void saveGameState(String fileName) {
 
-        String className = this.getClass().getSimpleName();
+        String className = this.getClass().getSimpleName();        
 
-        gameState.setBoard(board);
         gameState.setGame(className);
+        gameState.setBoard(board);
         gameState.setLevel(level);
 
         try {
@@ -283,17 +284,24 @@ public abstract class AbstractTileModel {
 
         if (temp == null) {
             return;
-        } 
-
-        this.board = null;
-        this.board = new int[temp.getBoard().length][temp.getBoard()[0].length];
-
-        for (int i = 0; i < temp.getBoard().length; i++) {
-            for (int j = 0; j < temp.getBoard()[0].length; j++) {
+        }   
+        
+        if(temp.getName().equals(this.getClass().getSimpleName()) == false){
+            System.out.println("Gamestate not compatible, wrong game");
+            return;
+        }
+        
+        if(temp.getBoard().length != board.length || temp.getBoard()[0].length != board[0].length){
+            System.out.println("Gamestate not compatible, wrong board size");
+            return;
+        }     
+        
+        for(int i = 0; i < temp.getBoard().length; i++){
+            for(int j = 0; j < temp.getBoard()[0].length; j++){
                 board[i][j] = temp.getBoard()[i][j];
             }
         }
-
+        
         level = (String) temp.getLevel();
         update = StateAndDirection.GAME_LOAD;            
         notifyAllObservers();
@@ -349,6 +357,12 @@ public abstract class AbstractTileModel {
         return controller;
     }
 
+    public void setController(InputController controller) {
+       getController().setController(controller);
+       KeyListener temp  = (KeyListener)controller;
+       addKeyListener(temp);       
+    }
+
     /**
      * Gets the frame.
      * 
@@ -356,6 +370,10 @@ public abstract class AbstractTileModel {
      */
     public Frame getFrame() {
         return frame;
+    }
+
+    public void addKeyListener(KeyListener keyListener) {
+        getFrame().addKeyListener(keyListener);
     }
 
     /**

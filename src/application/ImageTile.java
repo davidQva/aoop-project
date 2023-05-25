@@ -6,13 +6,13 @@ import framework.Tile;
  * ImageTile implements the interface Tile.
  * Tile is the prototype for the tiles in the game.
  */
-public class ImageTile implements Tile {
+public final class ImageTile implements Tile {
 
     ImageIcon tile;
     int size;
 
     /**
-     * Constructor for the SokobanTile.
+     * Constructor for the Tile.
      */   
     public ImageTile clone() {
         ImageTile clone = new ImageTile();

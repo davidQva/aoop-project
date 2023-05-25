@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class GameSaved implements Serializable {
 
     int[][] board;
-    String score;
-    String level;
+    String name;
+   String level;
 
     /**
      * Constructor for the GameState class.
@@ -50,17 +50,17 @@ public class GameSaved implements Serializable {
      * 
      * @return game
      */
-    public String getGame() {
-        return score;
+    public String getName() {
+        return name;
     }
 
     /**
      * Sets the game name.
      * 
-     * @param game is the game name.
+     * @param name is the game name.
      */
-    public void setGame(String score) {
-        this.score = score;
+    public void setGame(String name) {
+        this.name = name;
     }
 
     /**
