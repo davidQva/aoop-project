@@ -28,6 +28,4 @@ This project was developed as part of the Advanced Object-Oriented Programming (
 ## How to Use
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd AOOP-Tile-Games-Framework
+2. Run src/application/StartGames.java
